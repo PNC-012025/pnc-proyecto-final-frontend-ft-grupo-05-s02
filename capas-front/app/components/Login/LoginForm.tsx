@@ -104,7 +104,7 @@ const LoginForm: React.FC = () => {
 
   return (
     <div className="w-full md:w-1/2 p-6 md:p-8">
-      <Image src="/Logov3.svg" alt="Logo" className="w-36" width={144} height={144} />
+      <Image src="/logo.png" alt="Logo" className="w-36" width={144} height={144} />
       <h2 className="text-2xl font-bold mb-6 text-[#003C71]">Iniciar Sesión</h2>
 
       {error && (
