@@ -34,3 +34,52 @@ export interface UserEdited {
   imagen: string;
   email: string;
 }
+
+export interface Publicacion {
+  id: number;
+  descripcion: string;
+  categoria: string;
+  files: {
+    id: string;
+    originalFileName: string;
+    url: string;
+    tipo: string;
+  }[];
+  seccionId: string;
+  titulo: string;
+}
+
+export interface Course {
+  _id: string;
+  nombre: string;
+  gradoId: string;
+  backgroundImage: string;
+  encargados: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
+  alumnos: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
+  slug: string;
+  createdAt: string;
+  updatedAt: string;
+  publicaciones?: Publicacion[];
+}
+
+export interface CourseResponse {
+  statusCode: number;
+  message: string;
+  data: Course[] | Course;
+  size: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+}
