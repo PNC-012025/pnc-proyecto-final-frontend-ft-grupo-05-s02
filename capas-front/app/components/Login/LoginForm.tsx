@@ -5,13 +5,14 @@ import { useState, useEffect } from "react";
 import { useRouter } from 'next/navigation';
 import Image from "next/image";
 import { toast } from "@pheralb/toast";
-
 import {
   useGoogleReCaptcha
 } from 'react-google-recaptcha-v3';
 import { signIn, useSession } from "next-auth/react";
 import ForgotPasswordModal from "../Popups/ForgotPasswordModal";
 import { Eye, EyeClosed } from "lucide-react";
+import { RequestPassResponse } from "@/app/types/types";
+import { requestPasswordReset } from "@/app/services/user.service";
 
 const LoginForm: React.FC = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -80,26 +81,26 @@ const LoginForm: React.FC = () => {
     setResetLoading(true);
 
 
-    // try {
-    //   if (!executeRecaptcha) {
-    //     throw new Error("reCAPTCHA no está disponible.");
-    //   }
+    try {
+      if (!executeRecaptcha) {
+        throw new Error("reCAPTCHA no está disponible.");
+      }
 
-    //   const token = await executeRecaptcha("forgot_password");
+      const token = await executeRecaptcha("forgot_password");
 
-    //   const response: RequestPassResponse = await requestPasswordReset(resetEmail, token);
+      const response: RequestPassResponse = await requestPasswordReset(resetEmail, token);
 
-    //   if (response && response.statusCode === 404) {
-    //     toast.error({ text: 'Ha ocurrido un error', description: response.message });
-    //   } else {
-    //     toast.success({ text: 'Enlace de recuperación enviado. Revisa tu correo electrónico.' });
-    //     setShowForgotPasswordPopup(false);
-    //   }
-    // } catch {
-    //   toast.error({ text: 'Error al enviar el enlace de recuperación', description: 'Por favor, intenta nuevamente.' });
-    // } finally {
-    //   setResetLoading(false);
-    // }
+      if (response && response.statusCode === 404) {
+        toast.error({ text: 'Ha ocurrido un error', description: response.message });
+      } else {
+        toast.success({ text: 'Enlace de recuperación enviado. Revisa tu correo electrónico.' });
+        setShowForgotPasswordPopup(false);
+      }
+    } catch {
+      toast.error({ text: 'Error al enviar el enlace de recuperación', description: 'Por favor, intenta nuevamente.' });
+    } finally {
+      setResetLoading(false);
+    }
   };
 
   return (

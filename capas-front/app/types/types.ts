@@ -19,3 +19,18 @@ export interface AuthResponse {
     info: UserInfo;
   };
 }
+
+export interface ActivateAccountRequirements {
+  image?: string;
+  telefono: string;
+  password?: string;
+  isActive: boolean;
+}
+
+
+export interface UserEdited {
+  _id: string;
+  nombres: string;
+  imagen: string;
+  email: string;
+}
