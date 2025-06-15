@@ -21,15 +21,12 @@ export const RoleGuard = ({
   mode = 'any'
 }: RoleGuardProps) => {
   const { hasRole, } = useRole();
-  //const {role, isAdmin, isEditor } = useRole();
   const { status } = useSession(); 
 
-  // Si está cargando
   if (status === 'loading') {
     return <>{loadingFallback}</>;
   }
 
-  // Lógica de verificación de roles
   const hasPermission = mode === 'any' 
     ? allowedRoles.some(r => hasRole([r]))
     : allowedRoles.every(r => hasRole([r]));
