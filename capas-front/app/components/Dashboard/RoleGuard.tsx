@@ -1,8 +1,7 @@
-// components/RoleGuard.tsx
 'use client';
 
 import { ReactNode } from 'react';
-import { useRole } from '@/hooks/useRole';
+import { useRole } from '@/app/hooks/useRole';
 import { RoleValues } from '@/app/constants/roles';
 import { useSession } from 'next-auth/react';
 
