@@ -5,6 +5,7 @@ import "./globals.css";
 import SessionWrapper from "./components/SessionWrapper";
 import { Toaster } from "@pheralb/toast";
 import ClientProviders from "./components/ClientProvider";
+import { ClientInitializer } from "./components/ClientInitializer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <ClientProviders>
           <SessionWrapper>
+            <ClientInitializer />
             {children}
             <Toaster theme="light" />
           </SessionWrapper>
