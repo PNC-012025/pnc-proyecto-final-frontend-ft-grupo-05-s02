@@ -35,18 +35,35 @@ export interface UserEdited {
   email: string;
 }
 
+export interface FileNew {
+  id: string;
+  originalFileName: string;
+  url: string;
+  tipo: string;
+  category: string;
+  file: File;
+  data: {
+    url: string;
+    documentId: string;
+    fileName: string;
+  };
+}
+
+export type FilePublicacion = Pick<
+  FileNew,
+  "id" | "originalFileName" | "url" | "tipo"
+>;
+
+
 export interface Publicacion {
-  id: number;
+  _id: string;
   descripcion: string;
   categoria: string;
-  files: {
-    id: string;
-    originalFileName: string;
-    url: string;
-    tipo: string;
-  }[];
+  files: FilePublicacion[];
   seccionId: string;
   titulo: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface Course {
@@ -132,4 +149,19 @@ export interface TableProps<T> {
   handleMove?: (item: T) => void;
   hasMove?: boolean;
   hasEdit?: boolean;
+}
+
+export interface Image {
+  originalFilename: string;
+  category: string;
+  file: File;
+}
+
+export interface ImageResponse {
+  message: string;
+  data: {
+    url: string;
+    imageId: string;
+    fileName: string;
+  };
 }
