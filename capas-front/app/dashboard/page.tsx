@@ -24,7 +24,7 @@ export default function Dashboard() {
 
   return (
     <div className="px-4 md:px-20 py-3">
-      <h1 className="text-2xl font-bold text-center text-blue_principal">
+      <h1 className="text-2xl font-bold text-center text-[#003C71]">
         Refuerzo escolar Ing. William Mendoza
       </h1>
       <h2 className="text-lg text-center italic font-normal text-gray-500">
@@ -59,7 +59,7 @@ export default function Dashboard() {
                 key={index}
                 onClick={() => setCurrentImageIndex(index)}
                 className={`w-2 h-2 md:w-3 md:h-3 rounded-full ${index === currentImageIndex
-                  ? "bg-blue_principal"
+                  ? "bg-[#003C71]"
                   : "bg-gray-300"
                   }`}
               />
@@ -69,7 +69,7 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-6 px-4 md:px-20">
-        <h3 className="text-xl font-bold text-center text-blue_principal">
+        <h3 className="text-xl font-bold text-center text-[#003C71]">
           Historia
         </h3>
         <p className="font-normal italic text-center mt-5">
