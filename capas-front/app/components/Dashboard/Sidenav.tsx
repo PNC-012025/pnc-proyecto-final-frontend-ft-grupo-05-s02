@@ -144,11 +144,11 @@ const Sidenav: React.FC = () => {
           {isMenuOpen ? <XIcon className="w-6 h-6" /> : <MenuIcon className="w-6 h-6" />}
         </button>
         <Image
-          src="/Logov3.svg"
+          src="/logo.png"
           alt="Company Logo"
           width={48}
           height={48}
-          className="w-12 h-12"
+          className="w-12 h-14"
           priority
         />
       </header>
@@ -157,11 +157,11 @@ const Sidenav: React.FC = () => {
         <div className="flex flex-col flex-1 overflow-hidden">
           <div className="flex justify-center">
             <Image
-              src="/Logov3.svg"
+              src="/logo.png"
               alt="Company Logo"
               width={142}
               height={142}
-              className="w-36 h-36"
+              className="w-36 h-32 object-contain"
               priority
             />
           </div>
@@ -221,7 +221,7 @@ const Sidenav: React.FC = () => {
         <div className="flex items-center gap-2 mt-4 pt-4 border-t" suppressHydrationWarning>
           <div className="flex items-center gap-2 flex-1">
             {user?.image ? (
-              <Image
+              <img
                 src={user.image || '/default-avatar.png'}
                 alt="User avatar"
                 className="w-8 object-cover h-8 rounded-full"
@@ -257,7 +257,7 @@ const Sidenav: React.FC = () => {
             <div className="flex-1 overflow-hidden">
               <div className="flex justify-center">
                 <Image
-                  src="/Logov3.svg"
+                  src="/logo.png"
                   alt="Company Logo"
                   width={112}
                   height={112}
@@ -320,7 +320,7 @@ const Sidenav: React.FC = () => {
             <div className="flex items-center gap-2 mt-4 pt-4 border-t">
               <div className="flex items-center gap-2 flex-1">
                 {user?.image ? (
-                  <Image
+                  <img
                     src={user.image || '/default-avatar.png'}
                     alt="User avatar"
                     className="w-8 object-cover h-8 rounded-full"

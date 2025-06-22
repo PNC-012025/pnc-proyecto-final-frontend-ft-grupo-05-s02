@@ -1,5 +1,4 @@
 "use client";
-import Image from "next/image";
 import { useState } from "react";
 
 export default function Dashboard() {
@@ -34,10 +33,9 @@ export default function Dashboard() {
 
       <div className="px-4 md:px-32">
         <div className="mt-6 w-full relative h-[200px] md:h-[300px] overflow-hidden">
-          <Image
+          <img
             src={images[currentImageIndex]}
             alt={`Imagen ${currentImageIndex + 1}`}
-            fill
             className="object-cover rounded-lg"
           />
 
