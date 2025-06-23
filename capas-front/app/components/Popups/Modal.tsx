@@ -38,7 +38,7 @@ export const Modal = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="fixed inset-0 bg-[rgba(0,0,0,0.5)] flex items-center justify-center p-4 z-[9999]">
       <div className="bg-white rounded-lg w-full max-w-md shadow-lg transform transition-all duration-300 ease-in-out">
         <div className="flex justify-between items-center p-6 ">
           <h3 className="text-2xl text-[#003C71] font-semibold">{title}</h3>

@@ -218,7 +218,7 @@ const Sidenav: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2 mt-4 pt-4 border-t" suppressHydrationWarning>
+        <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-300" suppressHydrationWarning>
           <div className="flex items-center gap-2 flex-1">
             {user?.image ? (
               <img
@@ -317,7 +317,7 @@ const Sidenav: React.FC = () => {
             </div>
 
             {/* Mobile User Section */}
-            <div className="flex items-center gap-2 mt-4 pt-4 border-t">
+            <div className="flex items-center gap-2 mt-4 pt-4 border-t border-gray-400">
               <div className="flex items-center gap-2 flex-1">
                 {user?.image ? (
                   <img
