@@ -69,7 +69,7 @@ const SelectFieldCustom: React.FC<SelectFieldCustomProps> = ({
 
   return (
     <div className="flex flex-col space-y-2">
-      <label className="block text-medium text-blue_principal font-medium">
+      <label className="block text-medium text-[#003C71] font-medium">
         {label}
       </label>
       <div className="relative" ref={containerRef}>

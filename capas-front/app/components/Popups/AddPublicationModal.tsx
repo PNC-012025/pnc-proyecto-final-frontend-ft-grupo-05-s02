@@ -31,7 +31,7 @@ const optionsCategory = [
     {
         value: "material de apoyo",
         label: "Material de apoyo",
-        icon: <NotebookTextIcon size={18} className="text-blue_principal" />,
+        icon: <NotebookTextIcon size={18} className="text-[#003C71]" />,
     },
 ];
 
@@ -248,10 +248,10 @@ export const AddPublicationModal = ({
             onClose={handleCancel}
             buttons={
                 <div className="flex gap-2">
-                    <button onClick={onClose} className="px-4 py-2 text-blue_principal rounded">
+                    <button onClick={onClose} className="px-4 py-2 text-[#003C71] rounded">
                         Cancelar
                     </button>
-                    <button onClick={handleSubmit} className="px-4 py-2 bg-blue_principal text-white rounded">
+                    <button onClick={handleSubmit} className="px-4 py-2 bg-[#003C71] text-white rounded">
                         {initialData && initialData._id ? "Editar" : "Agregar"}
                     </button>
                 </div>

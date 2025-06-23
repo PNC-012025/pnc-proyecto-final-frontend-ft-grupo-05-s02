@@ -83,7 +83,7 @@ export const MultiFileSelector: React.FC<MultiFileSelectorProps> = ({
     <div className="space-y-3">
       {/* Botón para seleccionar archivos */}
       <div className="flex gap-2">
-        <label className="block text-medium text-blue_principal font-medium">
+        <label className="block text-medium text-[#003C71] font-medium">
           Archivos adjuntos
         </label>
         <input

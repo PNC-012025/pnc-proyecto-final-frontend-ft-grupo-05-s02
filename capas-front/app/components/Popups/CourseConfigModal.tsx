@@ -54,12 +54,12 @@ export const CourseConfigModal = ({
         <div className="flex gap-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-blue_principal rounded"
+            className="px-4 py-2 text-[#003C71] rounded"
           >
             Cancelar
           </button>
           <button
-            className="px-4 py-2 bg-blue_principal text-white rounded"
+            className="px-4 py-2 bg-[#003C71] text-white rounded"
           >
             Guardar
           </button>

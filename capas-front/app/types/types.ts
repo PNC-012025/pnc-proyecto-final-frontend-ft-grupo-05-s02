@@ -165,3 +165,47 @@ export interface ImageResponse {
     fileName: string;
   };
 }
+
+export interface AsistenciaAlumno {
+  id?: string;
+  alumnoId: string;
+  fecha: string;
+  estado: string;
+  nombre: string;
+  imagen: string;
+}
+
+export interface AsistenciaEncargado {
+  id?: string;
+  _id?: string;
+  userId: string;
+  fecha: string;
+  estado: string;
+  hora_inicio: string;
+  hora_fin: string;
+  nombre?: string;
+  imagen?: string;
+}
+
+export interface HistoryAsistenciaResponse<T> {
+  statusCode: number;
+  message: string;
+  data: Record<string, T[]>;
+}
+
+export interface Asistencia {
+  _id: string;
+  seccionId: string;
+  alumnos: AsistenciaAlumno[];
+  encargados: AsistenciaEncargado[];
+}
+
+export interface AsistenciaResponse {
+  statusCode: number;
+  message: string;
+  data: Asistencia[];
+  size: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+}

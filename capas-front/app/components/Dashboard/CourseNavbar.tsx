@@ -52,7 +52,7 @@ const CourseNavbar: React.FC<CourseNavbarProps> = ({ tabs, currentTabId }) => {
             onClick={() => setIsOpen(!isOpen)}
             className="w-full flex items-center justify-between py-2 text-sm font-medium text-gray-900"
           >
-            <span className="flex items-center text-blue_principal">
+            <span className="flex items-center text-[#003C71]">
               <Menu className="h-5 w-5 mr-2 " />
               {currentTab?.name || 'Navegación'}
             </span>

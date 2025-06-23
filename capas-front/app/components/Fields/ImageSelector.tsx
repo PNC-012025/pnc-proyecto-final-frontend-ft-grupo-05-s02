@@ -83,7 +83,7 @@ export const ImageSelector = ({ initialPreview, onImageChange }: ImageSelectorPr
                     onClick={() => {
                         setIsUrlInput(false);
                     }}
-                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1 ${!isUrlInput ? 'bg-blue_principal text-white' : 'bg-gray-100 text-gray-600'
+                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1 ${!isUrlInput ? 'bg-[#003C71] text-white' : 'bg-gray-100 text-gray-600'
                         }`}
                 >
                     <Upload size={14} /> Archivo
@@ -95,7 +95,7 @@ export const ImageSelector = ({ initialPreview, onImageChange }: ImageSelectorPr
                         setIsUrlInput(true);
                         setFile(null)
                     }}
-                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1 ${isUrlInput ? 'bg-blue_principal text-white' : 'bg-gray-100 text-gray-600'
+                    className={`px-3 py-1.5 text-sm rounded-md flex items-center gap-1 ${isUrlInput ? 'bg-[#003C71] text-white' : 'bg-gray-100 text-gray-600'
                         }`}
                 >
                     <Link2 size={14} /> URL
@@ -116,7 +116,7 @@ export const ImageSelector = ({ initialPreview, onImageChange }: ImageSelectorPr
                     onDragLeave={handleDragLeave}
                     onDrop={handleDrop}
                     onClick={() => fileInputRef.current?.click()}
-                    className={`border-2 border-dashed rounded-lg p-3 text-center cursor-pointer transition-colors ${isDragging ? 'border-blue_principal bg-blue-50' : 'border-gray-200 hover:border-gray-300'
+                    className={`border-2 border-dashed rounded-lg p-3 text-center cursor-pointer transition-colors ${isDragging ? 'border-[#003C71] bg-blue-50' : 'border-gray-200 hover:border-gray-300'
                         }`}
                 >
                     <div className="space-y-1">
@@ -133,12 +133,12 @@ export const ImageSelector = ({ initialPreview, onImageChange }: ImageSelectorPr
                         value={imageUrl}
                         onChange={(e) => setImageUrl(e.target.value)}
                         placeholder="https://ejemplo.com/imagen.jpg"
-                        className="w-full px-3 outline-none py-1.5 text-sm border rounded-md focus:ring-1 focus:ring-blue_principal"
+                        className="w-full px-3 outline-none py-1.5 text-sm border rounded-md focus:ring-1 focus:ring-[#003C71]"
                     />
                     <button
                         type="button"
                         onClick={handleUrlSubmit}
-                        className="px-3 py-1.5 cursor-pointer text-sm bg-blue_principal text-white rounded-md hover:bg-blue-600"
+                        className="px-3 py-1.5 cursor-pointer text-sm bg-[#003C71] text-white rounded-md hover:bg-blue-600"
                         disabled={!validateImageUrl(imageUrl)}
                     >
                         Usar

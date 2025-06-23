@@ -85,7 +85,7 @@ export default function Tablon() {
       return <ClipboardList className="text-beige_secondary w-6 h-6" />;
     }
     if (message.includes("material de apoyo")) {
-      return <FileText className="text-blue_principal w-6 h-6" />;
+      return <FileText className="text-[#003C71] w-6 h-6" />;
     }
     return null;
   };
@@ -174,7 +174,7 @@ export default function Tablon() {
               onClick={() =>
                 setModalState({ type: "edit", selected: course || null })
               }
-              className="absolute top-2 sm:top-4 right-2 sm:right-4 outline-none flex items-center gap-2 bg-white text-blue_principal px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base"
+              className="absolute top-2 sm:top-4 right-2 sm:right-4 outline-none flex items-center gap-2 bg-white text-[#003C71] px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg text-sm sm:text-base"
             >
               <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Editar</span>
@@ -192,7 +192,7 @@ export default function Tablon() {
       <div className="md:pb-10 pb-4">
         <div className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 lg:px-8 justify-between mb-4 sm:mb-8 md:mb-10 space-y-4 sm:space-y-0">
           <div className="flex flex-col gap-1">
-            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-blue_principal">
+            <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-[#003C71]">
               Últimas publicaciones
             </h2>
             <span className="text-sm sm:text-base text-gray-500">
@@ -203,7 +203,7 @@ export default function Tablon() {
           <RoleGuard allowedRoles={[ROLES.ADMIN, ROLES.PROFESOR, ROLES.TUTOR]}>
             <button
               onClick={() => setModalStatePublication({ type: "add", selected: null })}
-              className="inline-flex items-center gap-2 bg-blue_principal text-white px-4 py-2 rounded-lg text-sm sm:text-base hover:bg-blue-700 transition-colors"
+              className="inline-flex items-center gap-2 bg-[#003C71] text-white px-4 py-2 rounded-lg text-sm sm:text-base hover:bg-blue-700 transition-colors"
             >
               <Plus className="w-4 h-4 sm:w-5 sm:h-5" />
               Nueva publicación
@@ -227,7 +227,7 @@ export default function Tablon() {
                 >
                   <div className="p-6 flex flex-wrap md:flex-nowrap items-start gap-5 cursor-pointer relative"
                     onClick={() => handleToggle(novedad._id)}>
-                    <div className="sm:p-3.5 p-1 rounded-xl bg-blue_principal/10 shadow-inner flex-shrink-0">
+                    <div className="sm:p-3.5 p-1 rounded-xl bg-[#003C71]/10 shadow-inner flex-shrink-0">
                       {getIconByMessage(novedad.categoria)}
                     </div>
                     <div className="flex-1 min-w-[60%]">
@@ -307,16 +307,16 @@ export default function Tablon() {
                                 href={`${file.url}`}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex items-center gap-3 px-4 md:px-5 py-1 md:py-3 bg-blue_principal/5 hover:bg-blue_principal/10 transition-colors rounded-xl border border-blue_principal/20 group w-full"
+                                className="flex items-center gap-3 px-4 md:px-5 py-1 md:py-3 bg-[#003C71]/5 hover:bg-[#003C71]/10 transition-colors rounded-xl border border-[#003C71]/20 group w-full"
                               >
                                 <div className="p-2 bg-white rounded-lg shadow-sm flex-shrink-0">
                                   {file.tipo === "documento" ? (
-                                    <FileIcon className="w-5 h-5 md:w-6 md:h-6 text-blue_principal" />
+                                    <FileIcon className="w-5 h-5 md:w-6 md:h-6 text-[#003C71]" />
                                   ) : (
-                                    <ImageIcon className="w-5 h-5 md:w-6 md:h-6 text-blue_principal" />
+                                    <ImageIcon className="w-5 h-5 md:w-6 md:h-6 text-[#003C71]" />
                                   )}
                                 </div>
-                                <span className="text-sm font-medium text-gray-700 truncate break-all max-w-[180px] md:max-w-[240px] group-hover:text-blue_principal transition-colors">
+                                <span className="text-sm font-medium text-gray-700 truncate break-all max-w-[180px] md:max-w-[240px] group-hover:text-[#003C71] transition-colors">
                                   {file.originalFileName}
                                 </span>
                               </a>

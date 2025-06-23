@@ -17,7 +17,7 @@ export const InputField = ({ label, type, value, onChange, placeholder, isRequir
             type={type}
             value={value}
             onChange={(e) => onChange(e.target.value)}
-            className="w-full p-2 border rounded-lg focus:ring-blue_principal outline-none"
+            className="w-full p-2 border rounded-lg focus:ring-[#003C71] outline-none"
             placeholder={placeholder}
             required={isRequired}
         />
