@@ -1,7 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  images: {
+    domains: ["refuerzo-mendoza.me"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "refuerzo-mendoza.me",
+        port: "",
+        pathname: "/apiv2/uploads/images/profile_images/**",
+      },
+    ],
+  },
 };
 
 export default nextConfig;
