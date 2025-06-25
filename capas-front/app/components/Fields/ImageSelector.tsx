@@ -5,6 +5,7 @@ import { ImageIcon, Link2, Upload, X } from "lucide-react";
 interface ImageSelectorProps {
     initialPreview?: string;
     onImageChange: (file: File | string | null) => void;
+    imageFile?: File | string | null;
 }
 
 export const ImageSelector = ({ initialPreview, onImageChange }: ImageSelectorProps) => {
