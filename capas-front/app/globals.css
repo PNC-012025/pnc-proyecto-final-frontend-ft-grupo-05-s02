@@ -1,49 +1,5 @@
-@import "tailwindcss";
+/* 1. Carga tu config antes que nada */
+@config "../tailwind.config.js";
 
-h1 {
-  @apply text-4xl font-bold my-4;
-}
-
-h2 {
-  @apply text-3xl font-semibold my-3;
-}
-
-.grecaptcha-badge {
-  visibility: hidden;
-}
-
-/* Para navegadores WebKit */
-::-webkit-scrollbar {
-  width: 8px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
-
-.scrollbar-thin::-webkit-scrollbar {
-  height: 4px; 
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb {
-  background: #d7d7d7;
-  border-radius: 2px;
-}
-
-.scrollbar-thin::-webkit-scrollbar-thumb:hover {
-  background: #d7d7d7;
-}
-
-.scrollbar-thin::-webkit-scrollbar-track {
-  background: #FFFFFF;
-}
+/* 2. Inyecta Tailwind v4 (base, components y utilities) */
+@import "tailwindcss"; 

@@ -80,6 +80,7 @@ export const CourseConfigModal = ({
         <ImageSelector
           initialPreview={formData.backgroundImage}
           onImageChange={handleImageChange}
+          imageFile={imageFile}
         />
       </form>
     </Modal>

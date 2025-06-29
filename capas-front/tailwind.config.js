@@ -1,15 +1,12 @@
-import type { Config } from "tailwindcss";
-import { nextui } from "@nextui-org/theme";
-import { heroui } from "@heroui/theme";
+import { heroui } from "@heroui/react";
 
-const config: Config = {
+const config = {
   darkMode: "class", // Activa el modo oscuro basado en una clase
   content: [
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@heroui/theme/dist/components/(button|snippet|code|input).js",
+    "./node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
@@ -19,7 +16,8 @@ const config: Config = {
       },
     },
   },
-  plugins: [nextui(), heroui()],
+  darkMode: "class",
+  plugins: [ heroui() ],
 };
 
 export default config;

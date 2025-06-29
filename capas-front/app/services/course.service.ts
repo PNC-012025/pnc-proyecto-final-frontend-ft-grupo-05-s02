@@ -4,8 +4,9 @@ import { Course, CourseResponse } from "../types/types";
 
 export const getCourses = async (): Promise<Course[]> => {
   try {
-    const response = await api.get<CourseResponse>("/seccion");
+    const response = await api.get<CourseResponse>("/work-groups");
     const data = response.data.data;
+    console.log("Datos obtenidos:", data);
 
     if (!data) {
       throw new Error("Datos no disponibles");
@@ -50,7 +51,8 @@ export const updateCourse = async (
 };
 
 export const getMySections = async (): Promise<Course[]> => {
-  const response = await api.get<CourseResponse>("/seccion/me");
+  const response = await api.get<CourseResponse>("/user-x-work-groups/me");
+  console.log(response)
   const data = response.data.data;
   return Array.isArray(data) ? data : [data];
 };

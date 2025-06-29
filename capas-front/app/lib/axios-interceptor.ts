@@ -8,9 +8,11 @@ export const setupAxiosInterceptor = () => {
     try {
       const { getSession } = await import("next-auth/react");
       const session = await getSession();
+
+      console.log("Session data:", session);
       
-      if (session?.accessToken) {
-        config.headers.Authorization = `Bearer ${session.accessToken}`;
+      if (session?.token) {
+        config.headers.Authorization = `Bearer ${session.token}`;
       }
     } catch (error) {
       console.error("Interceptor error (client-side only):", error);
