@@ -4,6 +4,7 @@ export interface RequestPassResponse {
 }
 
 export interface UserInfo {
+  userId: string;
   nombreCompleto: string;
   email: string;
   image: string;
@@ -71,20 +72,20 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  encargados: {
-    _id: string;
-    nombre: string;
-    image: string;
-    email: string;
-    telefono: string;
-  }[];
-  alumnos: {
-    _id: string;
-    nombre: string;
-    image: string;
-    email: string;
-    telefono: string;
-  }[];
+  // encargados: {
+  //   _id: string;
+  //   nombre: string;
+  //   image: string;
+  //   email: string;
+  //   telefono: string;
+  // }[];
+  // alumnos: {
+  //   _id: string;
+  //   nombre: string;
+  //   image: string;
+  //   email: string;
+  //   telefono: string;
+  // }[];
   slug: string;
   createdAt: string;
   updatedAt: string;
@@ -208,4 +209,23 @@ export interface AsistenciaResponse {
   totalPages: number;
   page: number;
   limit: number;
+}
+
+export interface Estudiante {
+  _id: string;
+  workgroups: string[];
+  nombre: string;
+  image: string;
+  gradoId: string;
+  email: string;
+}
+
+export interface GetEstudiantesResponse {
+  data: Estudiante[];
+  size: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+  statusCode: number;
+  message: string;
 }

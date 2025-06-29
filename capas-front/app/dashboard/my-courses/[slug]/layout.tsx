@@ -36,7 +36,7 @@ export default function CourseLayout({ children }: { children: React.ReactNode }
 
   // Assuming you have a hook or context to get the current user’s role
 
-  const user = session?.user;
+  const user = session?.info;
 
   const tabs = [
     { id: 1, name: 'Tablón', href: `/dashboard/my-courses/${slug}` },

@@ -1,140 +1,122 @@
+import NextAuth, { AuthOptions, Session, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import { JWT } from "next-auth/jwt";
 import { api } from "./api";
 import { AuthResponse } from "../types/types";
 
 declare module "next-auth" {
   interface User {
-    accessToken: string;
-    emailVerified?: Date | null;
+    id: string;
+    token: string;
+    userId: string;
+    nombreCompleto: string;
+    email: string;
+    image?: string;
+    role?: string;
+    isActive?: boolean;
   }
 
   interface Session {
-    accessToken: string;
-    user: {
-      id?: string | null;
-      name?: string | null;
-      email?: string;
-      image?: string | null;
-      emailVerified?: Date | null;
-      role?: string | null;
+    token: string;
+    info: {
+      userId: string;
+      nombreCompleto: string;
+      email: string;
+      image?: string;
+      role?: string;
       isActive?: boolean;
     };
+    expires: string;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
-    accessToken: string;
-    exp?: number;
-    user: {
-      id?: string | null;
-      name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      emailVerified?: Date | null;
-      role?: string | null;
+    token: string;
+    info: {
+      userId: string;
+      nombreCompleto: string;
+      email: string;
+      image?: string;
+      role?: string;
       isActive?: boolean;
     };
+    exp?: number;
   }
 }
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
-        try {
-          const response = await api.post<AuthResponse>("auth/login", {
-            email: credentials?.email,
-            password: credentials?.password,
-          });
+      async authorize(credentials): Promise<User | null> {
+        if (!credentials?.email || !credentials?.password) return null;
 
-          const { data } = response.data;
-          if (!data?.token || !data?.info) return null;
+        const res = await api.post<AuthResponse>("auth/login", {
+          email: credentials.email,
+          password: credentials.password,
+        });
+        console.log("Respuesta de autenticación:", res.data);
+        const { token, info } = res.data.data;
+        if (!token || !info) return null;
 
-          return {
-            id: data.info.email,
-            email: data.info.email,
-            name: data.info.nombreCompleto,
-            image: data.info.image,
-            accessToken: data.token,
-            emailVerified: null,
-            role: data.info.role,
-            isActive: data.info.isActive,
-          };
-        } catch (error) {
-          console.error("Authentication error:", error);
-          return null;
-        }
+        return {
+          id: info.userId,
+          userId: info.userId,
+          nombreCompleto: info.nombreCompleto,
+          email: info.email,
+          image: info.image,
+          role: info.role,
+          isActive: info.isActive,
+          token,
+        };
       },
     }),
   ],
+
   callbacks: {
-    async redirect({ url, baseUrl }: { url: string; baseUrl: string }) {
-      return url.startsWith(baseUrl) ? url : baseUrl;
-    },
-    async jwt({
-      token,
-      user,
-    }: {
-      token: import("next-auth/jwt").JWT;
-      user?: import("next-auth").User;
-    }) {
+    async jwt({ token, user }): Promise<JWT> {
       if (user) {
-        token.accessToken = user.accessToken;
-        token.user = {
-          id: user.id,
-          name: user.name,
+        token.token = user.token;
+        token.info = {
+          userId: user.userId,
+          nombreCompleto: user.nombreCompleto,
           email: user.email,
           image: user.image,
-          emailVerified: user.emailVerified,
           role: user.role,
           isActive: user.isActive,
         };
-
         token.exp = Math.floor(Date.now() / 1000) + 2 * 60 * 60;
       }
       return token;
     },
+
     async session({
       session,
       token,
-    }: {
-      session: import("next-auth").Session;
-      token: import("next-auth/jwt").JWT;
-    }) {
-      session.accessToken = token.accessToken;
-      session.user = {
-        id: token.user?.id || "",
-        name: token.user?.name || null,
-        email: token.user?.email || "",
-        image: token.user?.image || null,
-        emailVerified: token.user?.emailVerified || null,
-        role: token.user?.role || null,
-        isActive: token.user?.isActive || false,
-      };
-
+    }): Promise<Session> {
+      session.token = token.token;
+      session.info = token.info;
       session.expires = token.exp
         ? new Date(token.exp * 1000).toISOString()
-        : new Date().toISOString();
+        : session.expires;
       return session;
     },
+
+    async redirect({ url, baseUrl }) {
+      return url.startsWith(baseUrl) ? url : baseUrl;
+    },
   },
+
   secret: process.env.AUTH_SECRET,
-  session: {
-    strategy: "jwt" as const,
-    maxAge: 2 * 60 * 60,
-  },
-  jwt: {
-    maxAge: 2 * 60 * 60,
-  },
-  trustHost: true,
-  pages: {
-    signIn: "/",
-    error: "/",
-  },
+  session: { strategy: "jwt", maxAge: 2 * 60 * 60 },
+  jwt: { maxAge: 2 * 60 * 60 },
+  pages: { signIn: "/", error: "/" },
 };
+
+export default NextAuth(authOptions);

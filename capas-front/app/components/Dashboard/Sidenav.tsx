@@ -33,7 +33,7 @@ const Sidenav: React.FC = () => {
   const [isMounted, setIsMounted] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
-  const user = session?.user;
+  const user = session?.info;
 
   const {
     data: mis_cursos,
@@ -239,7 +239,8 @@ const Sidenav: React.FC = () => {
             )}
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">
-                {user?.name || "Invitado"}
+                {user?.nombreCompleto || "Invitado"}
+                {user?.role}
               </p>
               <p className="text-xs text-gray-600 truncate">
                 {user?.email || "No disponible"}
@@ -337,8 +338,9 @@ const Sidenav: React.FC = () => {
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
+                  
                   <p className="text-sm font-medium truncate">
-                    {user?.name || "Invitado"}
+                    {user?.nombreCompleto || "Invitado"}
                   </p>
                   <p className="text-xs text-gray-600 truncate">
                     {user?.email || "No disponible"}

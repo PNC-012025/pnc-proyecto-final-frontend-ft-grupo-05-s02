@@ -10,6 +10,12 @@ const nextConfig: NextConfig = {
         port: "",
         pathname: "/apiv2/uploads/images/profile_images/**",
       },
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "8080",
+        pathname: "/uploads/**",
+      },
     ],
   },
 };
