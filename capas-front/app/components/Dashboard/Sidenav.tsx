@@ -13,7 +13,6 @@ import {
   BookOpen,
   MenuIcon,
   XIcon,
-  UsersRoundIcon,
   LogOut,
   UserCircle,
   Settings,
@@ -63,9 +62,7 @@ const Sidenav: React.FC = () => {
 
   const users = [
     { name: "Alumnos", path: '/dashboard/students', icon: UserIcon },
-    { name: "Recomendadores", path: '/dashboard/recomendators', icon: UsersRoundIcon },
     { name: "Tutores", path: '/dashboard/tutors', icon: Users2Icon },
-    { name: "Profesores", path: '/dashboard/teachers', icon: Users2Icon }
   ];
 
   // Handlers
