@@ -229,3 +229,22 @@ export interface GetEstudiantesResponse {
   statusCode: number;
   message: string;
 }
+
+export interface Tutor {
+  _id: string;
+  nombre: string;
+  email: string;
+  image: string;
+  isActive: boolean;
+  workgroups: string[];
+}
+
+export interface TutorResponse {
+  statusCode: number;
+  message: string;
+  data: Tutor[];
+  size: number;
+  totalPages: number;
+  page: number;
+  limit: number;
+}

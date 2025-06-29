@@ -9,11 +9,9 @@ import {
   UserIcon,
   LayersIcon,
   MoreHorizontalIcon,
-  FileTextIcon,
   BookOpen,
   MenuIcon,
   XIcon,
-  UsersRoundIcon,
   LogOut,
   UserCircle,
   Settings,
@@ -63,9 +61,7 @@ const Sidenav: React.FC = () => {
 
   const users = [
     { name: "Alumnos", path: '/dashboard/students', icon: UserIcon },
-    { name: "Recomendadores", path: '/dashboard/recomendators', icon: UsersRoundIcon },
     { name: "Tutores", path: '/dashboard/tutors', icon: Users2Icon },
-    { name: "Profesores", path: '/dashboard/teachers', icon: Users2Icon }
   ];
 
   // Handlers
@@ -199,13 +195,6 @@ const Sidenav: React.FC = () => {
                 allowedRoles={[ROLES.ADMIN]}
               />
 
-              <ProtectedNavItem
-                link="/dashboard/applicants"
-                icon={FileTextIcon}
-                label="Postulaciones"
-                isActive={pathName === "/dashboard/applicants"}
-                allowedRoles={[ROLES.ADMIN]}
-              />
 
               <ProtectedNavItem
                 link="/dashboard/advanced-options"
@@ -295,14 +284,6 @@ const Sidenav: React.FC = () => {
                     icon={LayersIcon}
                     label="Cursos"
                     isActive={pathName === "/dashboard/courses"}
-                    allowedRoles={[ROLES.ADMIN]}
-                  />
-
-                  <ProtectedNavItem
-                    link="/dashboard/applicants"
-                    icon={FileTextIcon}
-                    label="Postulaciones"
-                    isActive={pathName === "/dashboard/applicants"}
                     allowedRoles={[ROLES.ADMIN]}
                   />
 

@@ -11,7 +11,7 @@ export default function ListGridLayout({ isCardView, setIsCardView }: ListGridLa
             <button
                 onClick={() => setIsCardView(!isCardView)}
                 className={`ml-2 ${isCardView
-                    ? 'bg-[#003C71] text-white'
+                    ? 'bg-blue_principal text-white'
                     : 'text-gray-600 bg-white'
                     } font-medium px-4 py-2 rounded-lg shadow transition-all`}
             >
