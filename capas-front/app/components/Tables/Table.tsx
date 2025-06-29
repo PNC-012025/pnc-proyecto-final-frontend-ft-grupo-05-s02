@@ -41,7 +41,7 @@ const Table = <T extends { _id: string }>({
             {data.map((row) => (
               <tr
                 key={row._id}
-                className="border-b hover:bg-gray-50 transition-colors"
+                className="border-b hover:bg-gray-50 border-b-gray-300 transition-colors"
               >
                 {columns.map((col, index) => (
                   <td key={index} className="py-4 px-6 text-gray-700">
