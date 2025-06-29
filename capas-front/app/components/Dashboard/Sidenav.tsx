@@ -194,15 +194,6 @@ const Sidenav: React.FC = () => {
                 isActive={pathName === "/dashboard/courses"}
                 allowedRoles={[ROLES.ADMIN]}
               />
-
-
-              <ProtectedNavItem
-                link="/dashboard/advanced-options"
-                icon={Settings}
-                label="Opciones avanzadas"
-                isActive={pathName === "/dashboard/advanced-options"}
-                allowedRoles={[ROLES.ADMIN]}
-              />
             </nav>
           </div>
         </div>
@@ -284,14 +275,6 @@ const Sidenav: React.FC = () => {
                     icon={LayersIcon}
                     label="Cursos"
                     isActive={pathName === "/dashboard/courses"}
-                    allowedRoles={[ROLES.ADMIN]}
-                  />
-
-                  <ProtectedNavItem
-                    link="/dashboard/advanced-options"
-                    icon={Settings}
-                    label="Opciones avanzadas"
-                    isActive={pathName === "/dashboard/advanced-options"}
                     allowedRoles={[ROLES.ADMIN]}
                   />
                 </nav>
