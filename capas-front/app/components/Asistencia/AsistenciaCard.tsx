@@ -11,7 +11,6 @@ interface AsistenciaCardProps {
         nombre: string;
         image: string;
         email: string;
-        telefono: string;
     };
     setModalState?: (state: {
         type: 'add' | 'edit' | 'delete' | null;
@@ -31,7 +30,7 @@ export default function AsistenciaCard({
     let asistencia;
 
     if (isAlumno) {
-        asistencia = localAsistencia.alumnos.find((a) => a.alumnoId === alumno._id);
+        asistencia = localAsistencia.alumnos.find((a) => a.userXWorkGroupId === alumno._id);
     } else {
         asistencia = localAsistencia.encargados.find((a) => a.userId === alumno._id);
     }

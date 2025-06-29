@@ -14,7 +14,6 @@ import {
   XIcon,
   LogOut,
   UserCircle,
-  Settings,
   Users2Icon
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
