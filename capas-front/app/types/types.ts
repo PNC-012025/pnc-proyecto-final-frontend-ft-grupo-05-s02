@@ -72,20 +72,20 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  // encargados: {
-  //   _id: string;
-  //   nombre: string;
-  //   image: string;
-  //   email: string;
-  //   telefono: string;
-  // }[];
-  // alumnos: {
-  //   _id: string;
-  //   nombre: string;
-  //   image: string;
-  //   email: string;
-  //   telefono: string;
-  // }[];
+  encargados: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
+  alumnos: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
   slug: string;
   createdAt: string;
   updatedAt: string;
@@ -121,12 +121,11 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  encargados: {
+  tutores: {
     _id: string;
     nombre: string;
     image: string;
     email: string;
-    telefono: string;
   }[];
   alumnos: {
     _id: string;
@@ -169,7 +168,7 @@ export interface ImageResponse {
 
 export interface AsistenciaAlumno {
   id?: string;
-  alumnoId: string;
+  userXWorkGroupId: string;
   fecha: string;
   estado: string;
   nombre: string;

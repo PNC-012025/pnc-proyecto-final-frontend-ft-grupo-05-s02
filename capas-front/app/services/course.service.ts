@@ -20,7 +20,7 @@ export const getCourses = async (): Promise<Course[]> => {
 };
 
 export const getCourseBySlug = async (slug: string): Promise<Course> => {
-  const response = await api.get<CourseResponse>(`/seccion/slug/${slug}`);
+  const response = await api.get<CourseResponse>(`/user-x-work-groups/work-group/slug/${slug}`);
   const data = response.data.data;
   return Array.isArray(data) ? data[0] : data;
 };

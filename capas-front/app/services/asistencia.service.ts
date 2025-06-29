@@ -72,7 +72,7 @@ export const getAsistenciaByCourseId = async (
   slug: string | undefined
 ): Promise<Asistencia> => {
   const response = await api.get<AsistenciaResponse>(
-    `/asistencia/seccion/${slug}`
+    `/attendance/${slug}`
   );
   const data = response.data.data;
   return Array.isArray(data) ? data[0] : data;
@@ -82,7 +82,7 @@ export const updateAsistenciaById = async (
   asistencia: Partial<Asistencia>
 ): Promise<Asistencia> => {
   const response = await api.post<Asistencia>(
-    `/asistencia/alumno/${asistencia.seccionId}`,
+    `/attendance`,
     asistencia
   );
   return response.data;
@@ -94,7 +94,7 @@ export const getAsistenciaByDateAlumnos = async (
   year: string
 ): Promise<HistoryAsistenciaResponse<AsistenciaAlumno>> => {
   const response = await api.get<HistoryAsistenciaResponse<AsistenciaAlumno>>(
-    `/asistencia/seccion/${id_section}/alumnos-agrupados?month=${month}&year=${year}`
+    `/attendance/work-group/${id_section}?month=${month}&year=${year}`
   );
   return Array.isArray(response.data) ? response.data[0] : response.data;
 };

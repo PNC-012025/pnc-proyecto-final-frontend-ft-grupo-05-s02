@@ -182,7 +182,7 @@ export default function Tablon() {
           </RoleGuard>
 
           <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8">
-            <h1 className="text-xl sm:text-3xl md:text-5xl font-bold text-white mb-2 line-clamp-2">
+            <h1 className="text-xl sm:text-3xl md:text-5xl font-bold text-white mb-2">
               {course?.nombre}
             </h1>
           </div>
@@ -190,7 +190,7 @@ export default function Tablon() {
       </div>
 
       <div className="md:pb-10 pb-4">
-        <div className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 lg:px-8 justify-between mb-4 sm:mb-8 md:mb-10 space-y-4 sm:space-y-0">
+        <div className="flex flex-col mt-3 sm:flex-row sm:items-center px-4 sm:px-6 lg:px-8 justify-between mb-4 sm:mb-8 md:mb-10 space-y-4 sm:space-y-0">
           <div className="flex flex-col gap-1">
             <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-[#003C71]">
               Últimas publicaciones
