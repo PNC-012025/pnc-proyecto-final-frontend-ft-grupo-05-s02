@@ -9,8 +9,8 @@ import {
 export const activeProfile = async (
   usuario: ActivateAccountRequirements
 ): Promise<ActivateAccountRequirements> => {
-  const response = await api.patch<ActivateAccountRequirements>(
-    "/profile/me",
+  const response = await api.put<ActivateAccountRequirements>(
+    "/users/profile/me",
     usuario
   );
 
@@ -57,3 +57,4 @@ export const resetPassword = async (
     throw new Error("Error al restablecer la contraseña");
   }
 };
+

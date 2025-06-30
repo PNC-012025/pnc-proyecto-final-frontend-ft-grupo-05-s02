@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Modal } from "./Modal";
-import { Course } from "@/app/types/types";
+import { Course, CourseAddInterface } from "@/app/types/types";
 import { InputField } from "../Fields/InputField";
 import { ImageSelector } from "../Fields/ImageSelector";
 import { toast } from "@pheralb/toast";
@@ -15,10 +15,10 @@ interface FormModalProps {
   initialData?: Course;
   onClose: () => void;
   title: string;
-  onSubmit: (data: Course, image: File | string | null) => void;
+  onSubmit: (data: CourseAddInterface, image: File | string | null) => void;
 }
 
-export const CourseConfigModal = ({
+export const AddCourseModal = ({
   isOpen,
   initialData,
   onClose,
@@ -27,20 +27,38 @@ export const CourseConfigModal = ({
 }: FormModalProps) => {
   const emptyForm = useMemo<Partial<Course>>(
     () => ({
-      nombre: "",
-      encargados: [],
+      userIds: [],
+      name: "",
+      backgroundImageId: "",
     }),
     []
   );
 
   const [formData, setFormData] = useState<Partial<Course>>(emptyForm);
   const [imageFile, setImageFile] = useState<File | string | null>(null);
-  const [tutors, setTutors] = useState<{ value: string; label: string; image: string; email: string;}[]>([]); // Estado para tutores
+  const [tutors, setTutors] = useState<{ value: string; label: string; image: string; email: string; }[]>([]); // Estado para tutores
   const [alumnos, setAlumnos] = useState<{ value: string; label: string; image: string; email: string; }[]>([]); // Estado para alumnos
   const [selectedTutors, setSelectedTutors] = useState<string[]>([]);
   const [selectedAlumnos, setSelectedAlumnos] = useState<string[]>([]);
 
-  // Obtener tutores desde la API
+  useEffect(() => {
+    if (!initialData) return;
+
+    // 1) Inicializamos el formData completo
+    setFormData(initialData);
+
+    // 2) Mapear los IDs de tutores y alumnos
+    const tutorIds = initialData.tutores
+      ? initialData.tutores.map(t => typeof t === "string" ? t : t._id)
+      : [];
+    const alumnoIds = initialData.alumnos
+      ? initialData.alumnos.map(a => typeof a === "string" ? a : a._id)
+      : [];
+
+    setSelectedTutors(tutorIds);
+    setSelectedAlumnos(alumnoIds);
+  }, [initialData]);
+
   useEffect(() => {
     const fetchTutors = async () => {
       try {
@@ -92,21 +110,20 @@ export const CourseConfigModal = ({
   };
 
   useEffect(() => {
-    if (initialData?.encargados) {
-      initialData.encargados.forEach((encargado) => {
-        const encargadoId = typeof encargado === 'string' ? encargado : encargado._id;
-        
-        if (tutors.find((tutor) => tutor.value === encargadoId)) {
-          setSelectedTutors((prev) => [...prev, encargadoId]);
-        } else if (alumnos.find((alumno) => alumno.value === encargadoId)) {
-          setSelectedAlumnos((prev) => [...prev, encargadoId]);
+    if (initialData?.userIds) {
+      initialData.userIds.forEach((encargado) => {
+
+        if (tutors.find((tutor) => tutor.value === encargado)) {
+          setSelectedTutors((prev) => [...prev, encargado]);
+        } else if (alumnos.find((alumno) => alumno.value === encargado)) {
+          setSelectedAlumnos((prev) => [...prev, encargado]);
         }
       });
     }
     setFormData(initialData || emptyForm);
   }, [initialData, emptyForm, tutors, alumnos]);
 
-  const handleFieldChange = (field: keyof Course, value: string) => {
+  const handleFieldChange = (field: keyof CourseAddInterface, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -118,26 +135,8 @@ export const CourseConfigModal = ({
     setSelectedAlumnos(values);
   };
 
-  const combineIds = () => {
-    const selectedTutorObjects = tutors
-      .filter(tutor => selectedTutors.includes(tutor.value))
-      .map(tutor => ({
-        _id: tutor.value,
-        nombre: tutor.label,
-        image: tutor.image,
-        email: tutor.email,
-      }));
-
-    const selectedAlumnoObjects = alumnos
-      .filter(alumno => selectedAlumnos.includes(alumno.value))
-      .map(alumno => ({
-        _id: alumno.value,
-        nombre: alumno.label,
-        image: alumno.image,
-        email: alumno.email,
-      }));
-
-    return [...selectedTutorObjects, ...selectedAlumnoObjects];
+  const combineIds = (): string[] => {
+    return [...selectedTutors, ...selectedAlumnos];
   };
 
   const handleCancel = () => {
@@ -149,7 +148,7 @@ export const CourseConfigModal = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.nombre || formData.nombre.trim() === "") {
+    if (!formData.name || formData.name.trim() === "") {
       toast.error({
         text: "Error",
         description: "EL nombre no puede quedar vacio",
@@ -158,9 +157,9 @@ export const CourseConfigModal = ({
     }
 
     const combinedData = combineIds();
-    formData.tutores = combinedData;
+    formData.userIds = combinedData;
 
-    onSubmit(formData as Course, imageFile);
+    onSubmit(formData as CourseAddInterface, imageFile);
     handleCancel();
   };
 
@@ -190,8 +189,8 @@ export const CourseConfigModal = ({
         <InputField
           label="Nombre"
           type="text"
-          value={formData.nombre || ""}
-          onChange={(v) => handleFieldChange("nombre", v)}
+          value={formData.name || ""}
+          onChange={(v) => handleFieldChange("name", v)}
           placeholder="Nombre del programa"
           isRequired={true}
         />
@@ -211,7 +210,7 @@ export const CourseConfigModal = ({
         />
 
         <ImageSelector
-          initialPreview={formData.backgroundImage}
+          initialPreview={formData.backgroundImageId}
           onImageChange={handleImageChange}
         />
       </form>

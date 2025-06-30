@@ -39,7 +39,7 @@ export default function CourseLayout({ children }: { children: React.ReactNode }
     { id: 3, name: 'Personas', href: `/dashboard/my-courses/${slug}/personas` },
   ];
 
-  if (user && [ROLES.ADMIN, ROLES.PROFESOR, ROLES.TUTOR].includes(user.role as "admin" | "profesor" | "tutor")) {
+  if (user && [ROLES.ADMIN, ROLES.PROFESOR, ROLES.TUTOR].includes(user.role as "ADMIN" | "profesor" | "TUTOR")) {
     tabs.push(
       { id: 4, name: 'Registrar asistencia', href: `/dashboard/my-courses/${slug}/asistencia` },
       { id: 5, name: 'Historial de asistencia', href: `/dashboard/my-courses/${slug}/historial` },
