@@ -56,6 +56,8 @@ export interface Publicacion {
   _id: string;
   descripcion: string;
   categoria: string;
+  workgroupId: string;
+  documentIds: string[];
   files: FilePublicacion[];
   seccionId: string;
   titulo: string;

@@ -9,7 +9,6 @@ import SelectFieldV2 from "../Fields/SelectField2";
 import { ClipboardList, NotebookTextIcon } from "lucide-react";
 import MultiFileSelector from "../Fields/MultiFileSelector";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { uploadDocument } from "@/app/services/document.service";
 import { uploadImage } from "@/app/services/images.service";
 import { addPublication, updatePublication } from "@/app/services/publish.service";
 
@@ -47,8 +46,8 @@ export const AddPublicationModal = ({
         () => ({
             categoria: "",
             descripcion: "",
-            files: [],
-            seccionId: courseId,
+            documentIds: [],
+            workgroupId: courseId,
         }),
         [courseId]
     );
@@ -79,13 +78,6 @@ export const AddPublicationModal = ({
             queryClient.invalidateQueries({
                 queryKey: ['course', courseSlug]
             });
-        },
-    });
-
-    const uploadDocumentMutation = useMutation({
-        mutationFn: uploadDocument,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["document"] });
         },
     });
 
@@ -139,37 +131,12 @@ export const AddPublicationModal = ({
         };
 
         const response = await uploadImageMutation.mutateAsync(imagen);
+        console.log("Imagen subida----------------", response);
         return {
-            originalFileName: response.data.fileName,
-            url: response.data.url,
-            tipo: "imagen",
-            id: response.data.imageId,
+            id: response.data.id,
         };
     };
 
-    const handleDocumentUpload = async (file: File): Promise<Partial<FileNew>> => {
-        if (file.size > 5 * 1024 * 1024) {
-            toast.error({
-                text: "Error",
-                description: "El archivo no puede ser mayor a 5MB",
-            });
-            throw new Error("El archivo no puede ser mayor a 5MB");
-        }
-
-        const documento: Partial<FileNew> = {
-            originalFileName: file.name,
-            file,
-            category: "files_documents_section",
-        };
-
-        const response = await uploadDocumentMutation.mutateAsync(documento);
-        return {
-            originalFileName: response.data!.fileName,
-            url: response.data!.url,
-            tipo: "documento",
-            id: response.data!.documentId,
-        };
-    };
 
     const processFile = async (file: File | Partial<FileNew>) => {
         if (!(file instanceof File)) return file;
@@ -183,10 +150,8 @@ export const AddPublicationModal = ({
         }
 
         try {
-            if (file.type.startsWith("image/")) {
-                return await handleImageUpload(file);
-            }
-            return await handleDocumentUpload(file);
+            console.log("Procesando archivo:", file.name);
+            return await handleImageUpload(file);
         } catch (error) {
             toast.error({
                 text: "Error",
@@ -209,10 +174,15 @@ export const AddPublicationModal = ({
 
         try {
             const processedFiles = await Promise.all(files.map((file) => processFile(file)));
+            console.log("Archivos procesados:", processedFiles);
+
             const documentArray = processedFiles.filter(Boolean) as FilePublicacion[];
 
-            const submissionData = { ...formData, files: documentArray };
+            formData.documentIds = documentArray.map((file) => file.id);
 
+            const submissionData = { ...formData };
+
+            console.log("Datos a enviar:", submissionData);
 
             if (initialData && initialData._id) {
                 await updatePublicationMutation.mutateAsync(submissionData);
@@ -222,7 +192,7 @@ export const AddPublicationModal = ({
                     description: "La publicación se ha actualizado correctamente",
                 });
             } else {
-                // Modo agregar: se crea la publicación
+                console.log("Enviando datos de nueva publicación:", submissionData);
                 await addPublicationMutation.mutateAsync(submissionData);
                 toast.success({
                     text: "Éxito",

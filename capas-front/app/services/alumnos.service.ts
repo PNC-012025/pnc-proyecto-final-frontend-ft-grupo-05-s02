@@ -4,7 +4,7 @@ import { Estudiante, GetEstudiantesResponse } from "@/app/types/types";
 
 export const getAlumnos = async (): Promise<Estudiante[]> => {
   const response = await api.get<GetEstudiantesResponse>(
-    "/user-x-work-groups/alumno"
+    "/user-x-work-groups/alumnos"
   );
   console.log("Datos obtenidos:", response);
   return response.data.data;
