@@ -41,7 +41,6 @@ export default function Tablon() {
     selected: Publicacion | null;
   }>({ type: null, selected: null });
 
-  console.log("Course context:", course);
 
   const queryClient = useQueryClient();
 
@@ -49,7 +48,7 @@ export default function Tablon() {
     mutationFn: updateCourse,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["course", course?.slug],
+        queryKey: ["CursoActual"],
       });
     },
   });
@@ -58,7 +57,7 @@ export default function Tablon() {
     mutationFn: deletePublication,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ["course", course?.slug],
+        queryKey: ["CursoActual"],
       });
     },
   });
@@ -74,7 +73,7 @@ export default function Tablon() {
   const uploadImageMutation = useMutation({
     mutationFn: uploadImage,
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["course", course?.slug] });
+      queryClient.invalidateQueries({ queryKey: ["CursoActual"] });
     },
   });
 
@@ -84,6 +83,9 @@ export default function Tablon() {
 
   const getIconByMessage = (message: string) => {
     if (message.includes("alerta")) {
+      return <ClipboardList className="text-beige_secondary w-6 h-6" />;
+    }
+    if (message.includes("anuncio")) {
       return <ClipboardList className="text-beige_secondary w-6 h-6" />;
     }
     if (message.includes("material de apoyo")) {
