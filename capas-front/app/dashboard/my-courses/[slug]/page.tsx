@@ -83,7 +83,7 @@ export default function Tablon() {
   };
 
   const getIconByMessage = (message: string) => {
-    if (message.includes("anuncio")) {
+    if (message.includes("alerta")) {
       return <ClipboardList className="text-beige_secondary w-6 h-6" />;
     }
     if (message.includes("material de apoyo")) {
@@ -306,9 +306,9 @@ export default function Tablon() {
                   {openId === novedad._id && (
                     <div className="px-8 pb-6 border-t border-gray-100/50">
                       <div className="sm:pl-16 pl-10 sm:pr-8 pr-10">
-                        {novedad.files.length > 0 ? (
+                        {novedad.documentos && novedad.documentos?.length > 0 ? (
                           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:mt-5">
-                            {novedad.files.map((file, index) => (
+                            {novedad.documentos?.map((file, index) => (
                               <a
                                 key={index}
                                 href={`${file.url}`}
@@ -324,7 +324,7 @@ export default function Tablon() {
                                   )}
                                 </div>
                                 <span className="text-sm font-medium text-gray-700 truncate break-all max-w-[180px] md:max-w-[240px] group-hover:text-[#003C71] transition-colors">
-                                  {file.originalFileName}
+                                  {file.originalFilename}
                                 </span>
                               </a>
                             ))}
