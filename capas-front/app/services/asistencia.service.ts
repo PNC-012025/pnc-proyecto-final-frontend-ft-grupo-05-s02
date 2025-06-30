@@ -81,11 +81,17 @@ export const getAsistenciaByCourseId = async (
 export const updateAsistenciaById = async (
   asistencia: Partial<Asistencia>
 ): Promise<Asistencia> => {
+
+  const {seccionId, ...data} = asistencia;
+
+  console.log("Datos a actualizar:", data);
+  console.log("Sección ID:", seccionId);
   
   const response = await api.post(
     `/attendance`,
-    asistencia
+    data
   );
+  
   return response.data;
 };
 

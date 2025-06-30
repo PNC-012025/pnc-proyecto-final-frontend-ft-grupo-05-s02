@@ -17,7 +17,7 @@ interface AsistenciaCardProps {
         selected: Partial<AsistenciaEncargado> | null;
     }) => void;
     isAlumno: boolean;
-    handleEstadoAsistencia?: (alumnoId: string, estado: "asistió" | "falto" | "permiso") => void;
+    handleEstadoAsistencia?: (alumnoId: string, estado: "asistio" | "falto" | "permiso") => void;
 }
 
 export default function AsistenciaCard({
@@ -83,7 +83,7 @@ export default function AsistenciaCard({
                 {isAlumno ? (
                     <div className="flex gap-2 sm:mt-0 mt-3">
                         <button
-                            onClick={() => handleEstadoAsistencia?.(alumno._id, "asistió")}
+                            onClick={() => handleEstadoAsistencia?.(alumno._id, "asistio")}
                             className={`px-3 py-2 rounded-lg ${asistencia?.estado === "asistió"
                                 ? "bg-green-600 text-white"
                                 : "bg-green-100 text-green-600"

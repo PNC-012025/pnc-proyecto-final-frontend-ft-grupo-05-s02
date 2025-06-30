@@ -78,12 +78,13 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  encargados: {
+  tutores: {
     _id: string;
     nombre: string;
     image: string;
     email: string;
     telefono: string;
+    
   }[];
   alumnos: {
     _id: string;
@@ -91,6 +92,7 @@ export interface Course {
     image: string;
     email: string;
     telefono: string;
+    userXWorkgroupId: string;
   }[];
   slug: string;
   createdAt: string;
@@ -126,30 +128,6 @@ export interface ColumnWithFunction<T> {
 }
 
 export type Column<T> = ColumnWithKey<T> | ColumnWithFunction<T>;
-
-export interface Course {
-  _id: string;
-  nombre: string;
-  gradoId: string;
-  backgroundImage: string;
-  tutores: {
-    _id: string;
-    nombre: string;
-    image: string;
-    email: string;
-  }[];
-  alumnos: {
-    _id: string;
-    nombre: string;
-    image: string;
-    email: string;
-    telefono: string;
-  }[];
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
-  publicaciones?: Publicacion[];
-}
 
 export interface TableProps<T> {
   data: T[];
