@@ -22,10 +22,8 @@ export interface AuthResponse {
 }
 
 export interface ActivateAccountRequirements {
-  image?: string;
-  telefono: string;
+  imageDocumentId?: string;
   password?: string;
-  isActive: boolean;
 }
 
 export interface UserEdited {
