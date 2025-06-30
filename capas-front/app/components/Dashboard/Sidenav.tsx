@@ -219,7 +219,6 @@ const Sidenav: React.FC = () => {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">
                 {user?.nombreCompleto || "Invitado"}
-                {user?.role}
               </p>
               <p className="text-xs text-gray-600 truncate">
                 {user?.email || "No disponible"}
