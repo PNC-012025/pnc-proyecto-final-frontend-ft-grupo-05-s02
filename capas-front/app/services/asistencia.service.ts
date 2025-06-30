@@ -78,19 +78,13 @@ export const getAsistenciaByCourseId = async (
   return Array.isArray(data) ? data[0] : data;
 };
 
-export interface AsistenciaUpdatePayload {
-  asistencias: Partial<Asistencia>[];
-  seccionId: string;
-}
-
 export const updateAsistenciaById = async (
-  asistencia: AsistenciaUpdatePayload
+  asistencia: Partial<Asistencia>
 ): Promise<Asistencia> => {
-  const dataToSend = asistencia.asistencias;
-
-  const response = await api.post<Asistencia>(
+  
+  const response = await api.post(
     `/attendance`,
-    dataToSend
+    asistencia
   );
   return response.data;
 };
