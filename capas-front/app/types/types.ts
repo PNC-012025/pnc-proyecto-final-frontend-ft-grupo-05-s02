@@ -218,9 +218,12 @@ export interface Estudiante {
   _id: string;
   workgroups: string[];
   nombre: string;
+  name: string;
+  imageDocumentId: string;
+  roleName: string;
   image: string;
-  gradoId: string;
   email: string;
+  password?: string;
 }
 
 export interface GetEstudiantesResponse {
@@ -237,8 +240,12 @@ export interface Tutor {
   _id: string;
   nombre: string;
   email: string;
-  image: string;
+  name: string;
   isActive: boolean;
+  imageDocumentId: string;
+  roleName: string;
+  password?: string;
+  image: string;
   workgroups: string[];
 }
 

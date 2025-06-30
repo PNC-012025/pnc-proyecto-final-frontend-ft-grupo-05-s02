@@ -2,32 +2,32 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Modal } from "./Modal";
-import { Tutor } from "@/app/types/types";
+import { Estudiante } from "@/app/types/types";
 import { InputField } from "../Fields/InputField";
 
 interface FormModalProps {
     isOpen: boolean;
-    initialData?: Tutor;
+    initialData?: Estudiante;
     onClose: () => void;
-    onSubmit: (data: Tutor) => void;
+    onSubmit: (data: Estudiante) => void;
     title: string;
 }
 
-export const FormModalTutor = ({
+export const FormModalEstudiante = ({
     isOpen,
     initialData,
     onClose,
     onSubmit,
     title,
 }: FormModalProps) => {
-    const emptyForm = useMemo<Partial<Tutor>>(() => ({
+    const emptyForm = useMemo<Partial<Estudiante>>(() => ({
         name: "",
         email: "",
         password: "",
     }), []);
 
     // Estado del formulario y de la contraseña generada
-    const [formData, setFormData] = useState<Partial<Tutor>>(emptyForm);
+    const [formData, setFormData] = useState<Partial<Estudiante>>(emptyForm);
     const [password, setPassword] = useState<string>("");
 
     // Sincronizar con initialData
@@ -36,7 +36,7 @@ export const FormModalTutor = ({
         setPassword(initialData?.password || "");
     }, [initialData, emptyForm]);
 
-    const handleFieldChange = (field: keyof Tutor, value: string) => {
+    const handleFieldChange = (field: keyof Estudiante, value: string) => {
         setFormData(prev => ({ ...prev, [field]: value }));
     };
 
@@ -55,7 +55,7 @@ export const FormModalTutor = ({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        onSubmit(formData as Tutor);
+        onSubmit(formData as Estudiante);
         handleCancel();
     };
 
@@ -87,7 +87,7 @@ export const FormModalTutor = ({
                     type="text"
                     value={formData.name || ""}
                     onChange={v => handleFieldChange('name', v)}
-                    placeholder="Nombre del tutor"
+                    placeholder="Nombre del estudiante"
                     isRequired={true}
                 />
 
@@ -96,7 +96,7 @@ export const FormModalTutor = ({
                     type="email"
                     value={formData.email || ""}
                     onChange={v => handleFieldChange('email', v)}
-                    placeholder="Email del tutor"
+                    placeholder="Email del estudiante"
                     isRequired={true}
                 />
 
