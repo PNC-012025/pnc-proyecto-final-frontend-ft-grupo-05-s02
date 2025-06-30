@@ -184,9 +184,16 @@ export interface HistoryAsistenciaResponse<T> {
   data: Record<string, T[]>;
 }
 
+
 export interface Asistencia {
   _id: string;
+  id?: string;
   seccionId: string;
+  fecha?: string;
+  estado?: string;
+  nombre?: string;
+  alumnoId?: string;
+  imagen?: string;
   alumnos: AsistenciaAlumno[];
   encargados: AsistenciaEncargado[];
 }
@@ -244,4 +251,28 @@ export interface TutorResponse {
   totalPages: number;
   page: number;
   limit: number;
+}
+
+
+// types/asistencia-entry.ts
+export interface AsistenciaEntryDto {
+  id: string;           // obligatorio
+  alumnoId?: string;    // viene si es alumno
+  userId?: string;      // viene si es encargado
+  fecha: string;
+  estado: string;
+  nombre: string;
+  imagen: string;
+  hora_inicio?: string;
+  hora_fin?: string;
+}
+
+export interface AsistenciaEntryResponse {
+  statusCode: number;
+  message:    string;
+  data:       AsistenciaEntryDto[];
+  size:       number;
+  totalPages: number;
+  page:       number;
+  limit:      number;
 }

@@ -71,7 +71,7 @@ export default function Asistencia() {
 
   useEffect(() => {
     if (asistenciaResponse) {
-
+      
       const todayAsistencias = {
         ...asistenciaResponse,
         alumnos: asistenciaResponse.alumnos.filter(

@@ -4,6 +4,7 @@ import {
   Asistencia,
   AsistenciaAlumno,
   AsistenciaEncargado,
+  AsistenciaEntryResponse,
   AsistenciaResponse,
   HistoryAsistenciaResponse,
 } from "@/app/types/types";
@@ -69,13 +70,40 @@ export const addEncargadoAsistenciaBySectionId = async (
 };
 
 export const getAsistenciaByCourseId = async (
-  slug: string | undefined
+  seccionId: string | undefined
 ): Promise<Asistencia> => {
-  const response = await api.get<AsistenciaResponse>(
-    `/attendance/${slug}`
+  // aquí resp.data.data es AsistenciaEntryDto[] y no Asistencia[]
+  const resp = await api.get<AsistenciaEntryResponse>(
+    `/attendance/get-all-work-group/${seccionId}`
   );
-  const data = response.data.data;
-  return Array.isArray(data) ? data[0] : data;
+  const entries = resp.data.data; // <-- AsistenciaEntryDto[]
+
+  const alumnos: AsistenciaAlumno[] = entries
+    .filter(e => typeof e.alumnoId === "string")
+    .map<AsistenciaAlumno>(e => ({
+      userXWorkGroupId: e.alumnoId!,
+      fecha:            e.fecha,
+      estado:           e.estado,
+      nombre:           e.nombre,
+      imagen:           e.imagen,
+    }));
+
+  const encargados: AsistenciaEncargado[] = entries
+    .filter(e => typeof e.userId === "string")
+    .map<AsistenciaEncargado>(e => ({
+      userId:     e.userId!,
+      fecha:      e.fecha,
+      estado:     e.estado,
+      hora_inicio:e.hora_inicio ?? "",
+      hora_fin:   e.hora_fin    ?? "",
+    }));
+
+  return {
+    _id:       seccionId ?? "",
+    seccionId: seccionId ?? "",
+    alumnos,
+    encargados,
+  };
 };
 
 export const updateAsistenciaById = async (
