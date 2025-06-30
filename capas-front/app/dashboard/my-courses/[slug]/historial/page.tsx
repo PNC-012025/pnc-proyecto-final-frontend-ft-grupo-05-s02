@@ -1,7 +1,7 @@
 "use client";
 import React, { useCallback, useContext, useMemo, useState } from "react";
-import { AsistenciaAlumno, AsistenciaEncargado, HistoryAsistenciaResponse } from "@/app/types/types";
-import { getAsistenciaByDateEncargados, getAsistenciaByDateAlumnos } from "@/app/services/asistencia.service";
+import { AsistenciaAlumno, HistoryAsistenciaResponse } from "@/app/types/types";
+import { getAsistenciaByDateAlumnos } from "@/app/services/asistencia.service";
 import { useQuery } from "@tanstack/react-query";
 import { CourseContext } from "@/app/contexts/course-context";
 import { Check, TriangleAlert, X } from "lucide-react";
@@ -12,11 +12,6 @@ export default function HistorialAsistencia() {
   const [mes, setMes] = useState(new Date().getMonth() + 1);
   const [anio, setAnio] = useState(new Date().getFullYear());
   const course = useContext(CourseContext);
-  const [view, setView] = useState("estudiante");
-
-  const handleView = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setView(e.target.value);
-  }
 
   const fetchAsistencias = useCallback(async () => {
     if (!course?._id) {
@@ -29,30 +24,11 @@ export default function HistorialAsistencia() {
     );
   }, [course?._id, mes, anio]);
 
-  const fetchAsistenciasEncargados = useCallback(async () => {
-    if (!course?._id) {
-      throw new Error("No course id available");
-    }
-
-    return await getAsistenciaByDateEncargados(
-      course._id,
-      mes.toString(),
-      anio.toString()
-    );
-  }, [course?._id, mes, anio]);
 
   const { data: asistencias } = useQuery<HistoryAsistenciaResponse<AsistenciaAlumno>>({
     queryKey: ['course-alumnos', course?._id, mes, anio], // Key única
     queryFn: fetchAsistencias,
   });
-
-  // Para encargados
-  const { data: asistenciasEncargado } = useQuery<HistoryAsistenciaResponse<AsistenciaEncargado>>({
-    queryKey: ['course-encargados', course?._id, mes, anio], // Key única
-    queryFn: fetchAsistenciasEncargados,
-  });
-
-  console.log("asistenciasEncargados", asistenciasEncargado);
 
 
   const getSabaditosDelMes = (() => {
@@ -87,15 +63,7 @@ export default function HistorialAsistencia() {
   const getEstadoAsistencia = (alumnoId: string, fecha: Date): string | null => {
     const fechaKey = formatDate(fecha);
     const registro = asistencias?.data[fechaKey]?.find(
-      (asistencia) => asistencia.alumnoId === alumnoId
-    );
-    return registro?.estado || null;
-  };
-
-  const getEstadoAsistenciaEncargados = (alumnoId: string, fecha: Date): string | null => {
-    const fechaKey = formatDate(fecha);
-    const registro = asistenciasEncargado?.data[fechaKey]?.find(
-      (asistencia) => asistencia.userId === alumnoId
+      (asistencia) => asistencia.userXWorkGroupId === alumnoId
     );
     return registro?.estado || null;
   };
@@ -145,17 +113,6 @@ export default function HistorialAsistencia() {
             className="w-full sm:w-24 bg-white border text-[#003C71] border-gray-300 rounded-lg px-4 py-2"
           />
         </div>
-        <div>
-          <select
-            name="select"
-            onChange={handleView}
-            id=""
-            className="w-full sm:w-auto bg-white outline-none text-[#003C71] border border-gray-200 rounded-lg px-4 py-2"
-          >
-            <option value="estudiante">Estudiantes</option>
-            <option value="encargado">Encargados</option>
-          </select>
-        </div>
       </div>
 
       <div className="overflow-x-auto rounded-lg">
@@ -172,12 +129,8 @@ export default function HistorialAsistencia() {
             </tr>
           </thead>
           <tbody>
-            {view == "estudiante" && course?.alumnos?.map((alumno) => (
+            {course?.alumnos?.map((alumno) => (
               <HistoryTable isAlumno={true} alumno={alumno} sabadosDelMes={sabadosDelMes} getEstadoAsistencia={getEstadoAsistencia} getIconoEstado={getIconoEstado} key={alumno._id} />
-            ))}
-
-            {view == "encargado" && course?.encargados?.map((alumno) => (
-              <HistoryTable isAlumno={false} alumno={alumno} sabadosDelMes={sabadosDelMes} getEstadoAsistencia={getEstadoAsistenciaEncargados} getIconoEstado={getIconoEstado} key={alumno._id} />
             ))}
           </tbody>
         </table>

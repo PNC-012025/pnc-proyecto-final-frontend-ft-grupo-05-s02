@@ -1,5 +1,5 @@
 import { api } from "../lib/api";
-import { Course, CourseResponse } from "../types/types";
+import { Course, CourseAddInterface, CourseResponse } from "../types/types";
 
 
 export const getCourses = async (): Promise<Course[]> => {
@@ -19,8 +19,16 @@ export const getCourses = async (): Promise<Course[]> => {
   }
 };
 
+export const createCourse = async (
+  course: CourseAddInterface
+): Promise<CourseAddInterface> => {
+
+  const response = await api.post<CourseAddInterface>("/user-x-work-groups", course);
+  return response.data;
+};
+
 export const getCourseBySlug = async (slug: string): Promise<Course> => {
-  const response = await api.get<CourseResponse>(`/seccion/slug/${slug}`);
+  const response = await api.get<CourseResponse>(`/user-x-work-groups/work-group/slug/${slug}`);
   const data = response.data.data;
   return Array.isArray(data) ? data[0] : data;
 };

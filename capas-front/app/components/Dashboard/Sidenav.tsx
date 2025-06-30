@@ -9,14 +9,11 @@ import {
   UserIcon,
   LayersIcon,
   MoreHorizontalIcon,
-  FileTextIcon,
   BookOpen,
   MenuIcon,
   XIcon,
-  UsersRoundIcon,
   LogOut,
   UserCircle,
-  Settings,
   Users2Icon
 } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
@@ -63,9 +60,7 @@ const Sidenav: React.FC = () => {
 
   const users = [
     { name: "Alumnos", path: '/dashboard/students', icon: UserIcon },
-    { name: "Recomendadores", path: '/dashboard/recomendators', icon: UsersRoundIcon },
     { name: "Tutores", path: '/dashboard/tutors', icon: Users2Icon },
-    { name: "Profesores", path: '/dashboard/teachers', icon: Users2Icon }
   ];
 
   // Handlers
@@ -198,22 +193,6 @@ const Sidenav: React.FC = () => {
                 isActive={pathName === "/dashboard/courses"}
                 allowedRoles={[ROLES.ADMIN]}
               />
-
-              <ProtectedNavItem
-                link="/dashboard/applicants"
-                icon={FileTextIcon}
-                label="Postulaciones"
-                isActive={pathName === "/dashboard/applicants"}
-                allowedRoles={[ROLES.ADMIN]}
-              />
-
-              <ProtectedNavItem
-                link="/dashboard/advanced-options"
-                icon={Settings}
-                label="Opciones avanzadas"
-                isActive={pathName === "/dashboard/advanced-options"}
-                allowedRoles={[ROLES.ADMIN]}
-              />
             </nav>
           </div>
         </div>
@@ -295,22 +274,6 @@ const Sidenav: React.FC = () => {
                     icon={LayersIcon}
                     label="Cursos"
                     isActive={pathName === "/dashboard/courses"}
-                    allowedRoles={[ROLES.ADMIN]}
-                  />
-
-                  <ProtectedNavItem
-                    link="/dashboard/applicants"
-                    icon={FileTextIcon}
-                    label="Postulaciones"
-                    isActive={pathName === "/dashboard/applicants"}
-                    allowedRoles={[ROLES.ADMIN]}
-                  />
-
-                  <ProtectedNavItem
-                    link="/dashboard/advanced-options"
-                    icon={Settings}
-                    label="Opciones avanzadas"
-                    isActive={pathName === "/dashboard/advanced-options"}
                     allowedRoles={[ROLES.ADMIN]}
                   />
                 </nav>

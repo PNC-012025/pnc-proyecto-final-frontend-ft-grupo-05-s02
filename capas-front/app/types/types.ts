@@ -28,7 +28,6 @@ export interface ActivateAccountRequirements {
   isActive: boolean;
 }
 
-
 export interface UserEdited {
   _id: string;
   nombres: string;
@@ -55,7 +54,6 @@ export type FilePublicacion = Pick<
   "id" | "originalFileName" | "url" | "tipo"
 >;
 
-
 export interface Publicacion {
   _id: string;
   descripcion: string;
@@ -67,25 +65,31 @@ export interface Publicacion {
   updatedAt: string;
 }
 
+export interface CourseAddInterface {
+  workGroupName: string;
+  backgroundImageId: string;
+  userIds: string[];
+}
+
 export interface Course {
   _id: string;
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  // encargados: {
-  //   _id: string;
-  //   nombre: string;
-  //   image: string;
-  //   email: string;
-  //   telefono: string;
-  // }[];
-  // alumnos: {
-  //   _id: string;
-  //   nombre: string;
-  //   image: string;
-  //   email: string;
-  //   telefono: string;
-  // }[];
+  encargados: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
+  alumnos: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
   slug: string;
   createdAt: string;
   updatedAt: string;
@@ -121,12 +125,11 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  encargados: {
+  tutores: {
     _id: string;
     nombre: string;
     image: string;
     email: string;
-    telefono: string;
   }[];
   alumnos: {
     _id: string;
@@ -153,6 +156,7 @@ export interface TableProps<T> {
 }
 
 export interface Image {
+  id?: string;
   originalFilename: string;
   category: string;
   file: File;
@@ -161,6 +165,7 @@ export interface Image {
 export interface ImageResponse {
   message: string;
   data: {
+    id: string;
     url: string;
     imageId: string;
     fileName: string;
@@ -169,7 +174,7 @@ export interface ImageResponse {
 
 export interface AsistenciaAlumno {
   id?: string;
-  alumnoId: string;
+  userXWorkGroupId: string;
   fecha: string;
   estado: string;
   nombre: string;
@@ -228,4 +233,23 @@ export interface GetEstudiantesResponse {
   limit: number;
   statusCode: number;
   message: string;
+}
+
+export interface Tutor {
+  _id: string;
+  nombre: string;
+  email: string;
+  image: string;
+  isActive: boolean;
+  workgroups: string[];
+}
+
+export interface TutorResponse {
+  statusCode: number;
+  message: string;
+  data: Tutor[];
+  size: number;
+  totalPages: number;
+  page: number;
+  limit: number;
 }

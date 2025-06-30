@@ -32,10 +32,6 @@ export default function CourseLayout({ children }: { children: React.ReactNode }
     queryFn: () => getCourseBySlug(slug as string),
   });
 
-
-
-  // Assuming you have a hook or context to get the current user’s role
-
   const user = session?.info;
 
   const tabs = [
