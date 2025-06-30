@@ -16,8 +16,8 @@ export const deleteAlumno = async (id: string): Promise<void> => {
 };
 
 export const createAlumno = async (alumno: Partial<Estudiante>): Promise<Estudiante> => {
-  alumno.imageDocumentId = "c745d3cb-ab8b-49eb-bcda-70059b1d2d61";
-  alumno.roleName = "alumno";
+  alumno.imageDocumentId = process.env.NEXT_PUBLIC_DEFAULT_IMAGE_ID;
+  alumno.roleName = "ALUMNO";
   const response = await api.post<Estudiante>("/users", alumno);
 
   return response.data;

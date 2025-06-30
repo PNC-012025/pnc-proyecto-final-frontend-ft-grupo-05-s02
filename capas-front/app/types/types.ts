@@ -58,6 +58,12 @@ export interface Publicacion {
   categoria: string;
   workgroupId: string;
   documentIds: string[];
+  documentos?: {
+    id: string;
+    originalFilename: string;
+    url: string;
+    tipo: string;
+  }[];
   files: FilePublicacion[];
   seccionId: string;
   titulo: string;
@@ -84,7 +90,6 @@ export interface Course {
     image: string;
     email: string;
     telefono: string;
-    
   }[];
   alumnos: {
     _id: string;
@@ -185,12 +190,12 @@ export interface HistoryAsistenciaResponse<T> {
 }
 
 export interface RawAsistenciaAlumno {
-  id:        string;
-  alumnoId:  string;
-  fecha:     string;
-  estado:    string;
-  nombre:    string;
-  imagen:    string;
+  id: string;
+  alumnoId: string;
+  fecha: string;
+  estado: string;
+  nombre: string;
+  imagen: string;
 }
 
 export interface Asistencia {
@@ -261,12 +266,11 @@ export interface TutorResponse {
   limit: number;
 }
 
-
 // types/asistencia-entry.ts
 export interface AsistenciaEntryDto {
-  id: string;           // obligatorio
-  alumnoId?: string;    // viene si es alumno
-  userId?: string;      // viene si es encargado
+  id: string; // obligatorio
+  alumnoId?: string; // viene si es alumno
+  userId?: string; // viene si es encargado
   fecha: string;
   estado: string;
   nombre: string;
@@ -277,10 +281,10 @@ export interface AsistenciaEntryDto {
 
 export interface AsistenciaEntryResponse {
   statusCode: number;
-  message:    string;
-  data:       AsistenciaEntryDto[];
-  size:       number;
+  message: string;
+  data: AsistenciaEntryDto[];
+  size: number;
   totalPages: number;
-  page:       number;
-  limit:      number;
+  page: number;
+  limit: number;
 }

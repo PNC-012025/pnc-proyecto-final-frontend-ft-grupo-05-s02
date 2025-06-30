@@ -42,22 +42,21 @@ export const AddCourseModal = ({
   const [selectedAlumnos, setSelectedAlumnos] = useState<string[]>([]);
 
   useEffect(() => {
-    if (!initialData) return;
+  if (!initialData) return;
 
-    // 1) Inicializamos el formData completo
-    setFormData(initialData);
+  setFormData({
+    name: initialData.nombre,                     // ← aquí estaba el desajuste
+    backgroundImageId: initialData.backgroundImageId,
+    userIds: [
+      ...(initialData.tutores  ?? []).map(t => typeof t === "string" ? t : t._id),
+      ...(initialData.alumnos ?? []).map(a => typeof a === "string" ? a : a._id),
+    ],
+    id: initialData._id,
+  });
 
-    // 2) Mapear los IDs de tutores y alumnos
-    const tutorIds = initialData.tutores
-      ? initialData.tutores.map(t => typeof t === "string" ? t : t._id)
-      : [];
-    const alumnoIds = initialData.alumnos
-      ? initialData.alumnos.map(a => typeof a === "string" ? a : a._id)
-      : [];
-
-    setSelectedTutors(tutorIds);
-    setSelectedAlumnos(alumnoIds);
-  }, [initialData]);
+  // y previews de imagen si las necesitas:
+  setImageFile(initialData.backgroundImage || initialData.backgroundImageId || null);
+}, [initialData])
 
   useEffect(() => {
     const fetchTutors = async () => {
@@ -120,8 +119,22 @@ export const AddCourseModal = ({
         }
       });
     }
-    setFormData(initialData || emptyForm);
   }, [initialData, emptyForm, tutors, alumnos]);
+
+  useEffect(() => {
+  if (!initialData) return;
+
+  const alumnoIds =
+    initialData.alumnos?.map(a => typeof a === "string" ? a : a._id) 
+    ?? [];
+
+  const tutorIds =
+    initialData.tutores?.map(t => typeof t === "string" ? t : t._id) 
+    ?? [];
+
+  setSelectedAlumnos(alumnoIds);
+  setSelectedTutors(tutorIds);
+}, [initialData]);
 
   const handleFieldChange = (field: keyof CourseAddInterface, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));

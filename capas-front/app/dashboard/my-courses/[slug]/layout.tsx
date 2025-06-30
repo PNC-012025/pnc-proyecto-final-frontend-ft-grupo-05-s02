@@ -28,7 +28,7 @@ export default function CourseLayout({ children }: { children: React.ReactNode }
     isError,
     error
   } = useQuery<Course>({
-    queryKey: ['course', slug],
+    queryKey: ["CursoActual"],
     queryFn: () => getCourseBySlug(slug as string),
   });
 
