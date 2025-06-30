@@ -64,9 +64,11 @@ export interface Publicacion {
 }
 
 export interface CourseAddInterface {
-  workGroupName: string;
+  workGroupName?: string;
   backgroundImageId: string;
+  name?: string;
   userIds: string[];
+  id?: string;
 }
 
 export interface Course {
@@ -92,6 +94,11 @@ export interface Course {
   createdAt: string;
   updatedAt: string;
   publicaciones?: Publicacion[];
+  workGroupName?: string;
+  backgroundImageId?: string;
+  name?: string;
+  userIds?: string[];
+  id?: string;
 }
 
 export interface CourseResponse {

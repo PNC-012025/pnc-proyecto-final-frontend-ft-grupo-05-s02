@@ -34,29 +34,13 @@ export const getCourseBySlug = async (slug: string): Promise<Course> => {
 };
 
 export const updateCourse = async (
-  course: Partial<Course>
-): Promise<Course> => {
-  const courseToUpdate: {
-    encargados?: string[];
-    backgroundImage?: string;
-    nombre?: string;
-  } = {};
-
-  courseToUpdate.backgroundImage = course.backgroundImage;
-  courseToUpdate.nombre = course.nombre;
-
-  if (course.encargados) {
-    courseToUpdate.encargados = course.encargados.map(
-      (encargado) => encargado._id
-    );
-  }
-
-  const response = await api.patch<Course>(
-    `/seccion/${course._id}`,
-    courseToUpdate
-  );
+  course: CourseAddInterface
+): Promise<CourseAddInterface> => {
+  console.log("Datos a actualizar:", course);
+  const response = await api.patch<CourseAddInterface>(`/user-x-work-groups/workgroup/${course.id}`, course);
   return response.data;
 };
+
 
 export const getMySections = async (): Promise<Course[]> => {
   const response = await api.get<CourseResponse>("/user-x-work-groups/me");
