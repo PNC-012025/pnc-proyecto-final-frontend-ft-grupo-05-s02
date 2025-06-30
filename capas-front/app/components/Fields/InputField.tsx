@@ -10,7 +10,7 @@ type FormField = {
 
 export const InputField = ({ label, type, value, onChange, placeholder, isRequired }: FormField) => (
     <div className="space-y-1">
-        <label className="block text-medium text-[] font-medium">
+        <label className="block text-medium text-blue_principal font-medium">
             {label} {isRequired && <span className="text-red-500">*</span>}
         </label>
         <input

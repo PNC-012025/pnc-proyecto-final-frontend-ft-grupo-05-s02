@@ -28,7 +28,6 @@ export interface ActivateAccountRequirements {
   isActive: boolean;
 }
 
-
 export interface UserEdited {
   _id: string;
   nombres: string;
@@ -55,7 +54,6 @@ export type FilePublicacion = Pick<
   "id" | "originalFileName" | "url" | "tipo"
 >;
 
-
 export interface Publicacion {
   _id: string;
   descripcion: string;
@@ -65,6 +63,12 @@ export interface Publicacion {
   titulo: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface CourseAddInterface {
+  workGroupName: string;
+  backgroundImageId: string;
+  userIds: string[];
 }
 
 export interface Course {
@@ -152,6 +156,7 @@ export interface TableProps<T> {
 }
 
 export interface Image {
+  id?: string;
   originalFilename: string;
   category: string;
   file: File;
@@ -160,6 +165,7 @@ export interface Image {
 export interface ImageResponse {
   message: string;
   data: {
+    id: string;
     url: string;
     imageId: string;
     fileName: string;

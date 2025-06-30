@@ -134,7 +134,6 @@ export default function Tablon() {
 
       console.log("Respuesta del curso:", courseResponse);
     
-    // 4. Cerrar modal y mostrar feedback
     toast.success({
       text: "Curso actualizado exitosamente",});
     closeModal();
@@ -295,7 +294,6 @@ export default function Tablon() {
                     </div>
                   </div>
 
-                  {/* Sección de archivos (mantener igual) */}
                   {openId === novedad._id && (
                     <div className="px-8 pb-6 border-t border-gray-100/50">
                       <div className="sm:pl-16 pl-10 sm:pr-8 pr-10">

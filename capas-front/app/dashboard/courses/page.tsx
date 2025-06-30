@@ -4,13 +4,18 @@ import { useState } from "react";
 import PageHeader from "../../components/Dashboard/PageHeader";
 import Table from "../../components/Tables/Table";
 import ListGridLayout from "../../components/Dashboard/ListGridLayout";
-import { Column, Course } from "@/app/types/types";
+import { Column, Course, CourseAddInterface, Image as ImageFile } from "@/app/types/types";
 import { Tooltip as ReactTooltip } from "react-tooltip";
-import { getCourses } from "@/app/services/course.service";
-import { useQuery } from "@tanstack/react-query";
+import { createCourse, getCourses } from "@/app/services/course.service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Loading } from "../../components/Loading";
 import ServerErrorPage from "@/app/error";
 import Link from "next/link";
+import { Plus } from "lucide-react";
+import { RoleGuard } from "@/app/components/Dashboard/RoleGuard";
+import { ROLES } from "@/app/constants/roles";
+import { uploadImage } from "@/app/services/images.service";
+import { AddCourseModal } from "@/app/components/Popups/AddCourseModal";
 
 
 const CourseCard = ({ course }: { course: Course }) => (
@@ -54,6 +59,12 @@ const columns: Column<Course>[] = [
 export default function CoursesPage() {
     const [isCardView, setIsCardView] = useState(true);
 
+    const queryClient = useQueryClient();
+    const [modalState, setModalState] = useState<{
+        type: "add" | "edit" | "delete" | null;
+        selected: CourseAddInterface | null;
+    }>({ type: null, selected: null });
+
     const {
         data: cursos,
         isLoading,
@@ -63,6 +74,74 @@ export default function CoursesPage() {
         queryFn: getCourses,
         staleTime: 60 * 1000,
     });
+
+    const uploadImageMutation = useMutation({
+        mutationFn: uploadImage,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["cursosNuevos"] });
+        },
+    });
+
+    const createCourseMutation = useMutation({
+        mutationFn: createCourse,
+        onSuccess: () => {
+          queryClient.invalidateQueries({
+            queryKey: ["cursosNuevos"],
+          });
+        },
+      });
+
+    const closeModal = () => {
+        setModalState({ type: null, selected: null });
+    };
+
+    const handleAddCourse = async (course: CourseAddInterface, image: File | string | null) => {
+        const updateData: CourseAddInterface = {
+            workGroupName: course.workGroupName,
+            backgroundImageId: course.backgroundImageId,
+            userIds: course.userIds,
+        };
+        try {
+            let imageId = course.backgroundImageId;
+
+            if (image instanceof File) {
+                if (!image.type.startsWith("image/")) {
+                    throw new Error("Solo se permiten imágenes");
+                }
+
+                if (image.size > 5 * 1024 * 1024) {
+                    throw new Error("Tamaño máximo de imagen: 5MB");
+                }
+
+                const imagen: ImageFile = {
+                    originalFilename: image.name,
+                    category: "workgroups",
+                    file: image,
+                };
+
+                const imageResponse = await uploadImageMutation.mutateAsync(imagen);
+                imageId = imageResponse.data.id;
+
+
+
+            } else if (typeof image === "string") {
+                updateData.backgroundImageId = image;
+            }
+
+            updateData.backgroundImageId = imageId;
+            updateData.workGroupName = course.workGroupName;
+            updateData.userIds = course.userIds;
+
+            console.log("Datos a actualizar:", updateData);
+
+            const courseResponse = await createCourseMutation.mutateAsync(updateData);
+
+            console.log("Curso creado:", courseResponse);
+
+        } catch (error) {
+            console.error("Error al agregar el curso:", error);
+        }
+    };
 
     if (isLoading) {
         return <Loading />;
@@ -80,6 +159,16 @@ export default function CoursesPage() {
         <div className='p-10'>
             <PageHeader
                 title="Cursos"
+                buttons={[
+                    {
+                        label: "Agregar Curso",
+                        icon: <Plus size={18} />,
+                        onClick: () => {
+                            setModalState({ type: "add", selected: null });
+                        },
+                        className: "bg-blue_principal text-white px-4 py-2 rounded-lg shadow-md transition-transform hover:scale-105"
+                    },
+                ]}
             />
 
 
@@ -118,6 +207,18 @@ export default function CoursesPage() {
                 className="z-50"
                 place="top"
             />
+
+            <RoleGuard
+                allowedRoles={[ROLES.ADMIN, ROLES.PROFESOR, ROLES.TUTOR]}
+            >
+                <AddCourseModal
+                    isOpen={modalState.type === "add"}
+                    title="Agregar curso"
+                    initialData={modalState.selected!}
+                    onClose={closeModal}
+                    onSubmit={handleAddCourse}
+                />
+            </RoleGuard>
         </div>
     );
 }
