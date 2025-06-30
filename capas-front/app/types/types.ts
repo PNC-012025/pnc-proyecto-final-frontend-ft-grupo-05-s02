@@ -78,12 +78,13 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  encargados: {
+  tutores: {
     _id: string;
     nombre: string;
     image: string;
     email: string;
     telefono: string;
+    
   }[];
   alumnos: {
     _id: string;
@@ -91,6 +92,7 @@ export interface Course {
     image: string;
     email: string;
     telefono: string;
+    userXWorkgroupId: string;
   }[];
   slug: string;
   createdAt: string;
@@ -126,30 +128,6 @@ export interface ColumnWithFunction<T> {
 }
 
 export type Column<T> = ColumnWithKey<T> | ColumnWithFunction<T>;
-
-export interface Course {
-  _id: string;
-  nombre: string;
-  gradoId: string;
-  backgroundImage: string;
-  tutores: {
-    _id: string;
-    nombre: string;
-    image: string;
-    email: string;
-  }[];
-  alumnos: {
-    _id: string;
-    nombre: string;
-    image: string;
-    email: string;
-    telefono: string;
-  }[];
-  slug: string;
-  createdAt: string;
-  updatedAt: string;
-  publicaciones?: Publicacion[];
-}
 
 export interface TableProps<T> {
   data: T[];
@@ -206,9 +184,16 @@ export interface HistoryAsistenciaResponse<T> {
   data: Record<string, T[]>;
 }
 
+
 export interface Asistencia {
   _id: string;
+  id?: string;
   seccionId: string;
+  fecha?: string;
+  estado?: string;
+  nombre?: string;
+  alumnoId?: string;
+  imagen?: string;
   alumnos: AsistenciaAlumno[];
   encargados: AsistenciaEncargado[];
 }
@@ -266,4 +251,28 @@ export interface TutorResponse {
   totalPages: number;
   page: number;
   limit: number;
+}
+
+
+// types/asistencia-entry.ts
+export interface AsistenciaEntryDto {
+  id: string;           // obligatorio
+  alumnoId?: string;    // viene si es alumno
+  userId?: string;      // viene si es encargado
+  fecha: string;
+  estado: string;
+  nombre: string;
+  imagen: string;
+  hora_inicio?: string;
+  hora_fin?: string;
+}
+
+export interface AsistenciaEntryResponse {
+  statusCode: number;
+  message:    string;
+  data:       AsistenciaEntryDto[];
+  size:       number;
+  totalPages: number;
+  page:       number;
+  limit:      number;
 }

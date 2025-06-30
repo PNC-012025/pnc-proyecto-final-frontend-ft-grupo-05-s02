@@ -16,13 +16,15 @@ import { FormAsistenciaEncargado } from "@/app/components/Popups/AddEncargadoAsi
 import AsistenciaCard from "@/app/components/Asistencia/AsistenciaCard";
 import { getLocalTimeZone, today } from "@internationalized/date";
 
-type EstadoAsistencia = "asistió" | "falto" | "permiso";
+type EstadoAsistencia = "asistio" | "falto" | "permiso";
 
 const getCurrentDateString = today(getLocalTimeZone())
 
 export default function Asistencia() {
   const course = useContext(CourseContext);
   const queryClient = useQueryClient();
+
+  console.log("Course context:", course);
 
   const [localAsistencia, setLocalAsistencia] = useState<Asistencia>({
     _id: "",
@@ -69,7 +71,7 @@ export default function Asistencia() {
 
   useEffect(() => {
     if (asistenciaResponse) {
-
+      
       const todayAsistencias = {
         ...asistenciaResponse,
         alumnos: asistenciaResponse.alumnos.filter(
@@ -148,8 +150,8 @@ export default function Asistencia() {
           (a) => a.userXWorkGroupId === alumnoId
         );
         const newAsistencia = {
-          userXWorkGroupId: alumno._id,
-          fecha: new Date().toISOString(),
+          userXWorkGroupId: alumno.userXWorkgroupId,
+          fecha: new Date().toISOString().split('T')[0],
           estado,
           nombre: alumno.nombre,
           imagen: alumno.image,
