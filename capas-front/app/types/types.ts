@@ -22,12 +22,9 @@ export interface AuthResponse {
 }
 
 export interface ActivateAccountRequirements {
-  image?: string;
-  telefono: string;
+  imageDocumentId?: string;
   password?: string;
-  isActive: boolean;
 }
-
 
 export interface UserEdited {
   _id: string;
@@ -55,11 +52,12 @@ export type FilePublicacion = Pick<
   "id" | "originalFileName" | "url" | "tipo"
 >;
 
-
 export interface Publicacion {
   _id: string;
   descripcion: string;
   categoria: string;
+  workgroupId: string;
+  documentIds: string[];
   files: FilePublicacion[];
   seccionId: string;
   titulo: string;
@@ -67,29 +65,42 @@ export interface Publicacion {
   updatedAt: string;
 }
 
+export interface CourseAddInterface {
+  workGroupName?: string;
+  backgroundImageId: string;
+  name?: string;
+  userIds: string[];
+  id?: string;
+}
+
 export interface Course {
   _id: string;
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  // encargados: {
-  //   _id: string;
-  //   nombre: string;
-  //   image: string;
-  //   email: string;
-  //   telefono: string;
-  // }[];
-  // alumnos: {
-  //   _id: string;
-  //   nombre: string;
-  //   image: string;
-  //   email: string;
-  //   telefono: string;
-  // }[];
+  encargados: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
+  alumnos: {
+    _id: string;
+    nombre: string;
+    image: string;
+    email: string;
+    telefono: string;
+  }[];
   slug: string;
   createdAt: string;
   updatedAt: string;
   publicaciones?: Publicacion[];
+  workGroupName?: string;
+  backgroundImageId?: string;
+  name?: string;
+  userIds?: string[];
+  id?: string;
 }
 
 export interface CourseResponse {
@@ -121,12 +132,11 @@ export interface Course {
   nombre: string;
   gradoId: string;
   backgroundImage: string;
-  encargados: {
+  tutores: {
     _id: string;
     nombre: string;
     image: string;
     email: string;
-    telefono: string;
   }[];
   alumnos: {
     _id: string;
@@ -153,6 +163,7 @@ export interface TableProps<T> {
 }
 
 export interface Image {
+  id?: string;
   originalFilename: string;
   category: string;
   file: File;
@@ -161,6 +172,7 @@ export interface Image {
 export interface ImageResponse {
   message: string;
   data: {
+    id: string;
     url: string;
     imageId: string;
     fileName: string;
@@ -169,7 +181,7 @@ export interface ImageResponse {
 
 export interface AsistenciaAlumno {
   id?: string;
-  alumnoId: string;
+  userXWorkGroupId: string;
   fecha: string;
   estado: string;
   nombre: string;
@@ -215,9 +227,12 @@ export interface Estudiante {
   _id: string;
   workgroups: string[];
   nombre: string;
+  name: string;
+  imageDocumentId: string;
+  roleName: string;
   image: string;
-  gradoId: string;
   email: string;
+  password?: string;
 }
 
 export interface GetEstudiantesResponse {
@@ -228,4 +243,27 @@ export interface GetEstudiantesResponse {
   limit: number;
   statusCode: number;
   message: string;
+}
+
+export interface Tutor {
+  _id: string;
+  nombre: string;
+  email: string;
+  name: string;
+  isActive: boolean;
+  imageDocumentId: string;
+  roleName: string;
+  password?: string;
+  image: string;
+  workgroups: string[];
+}
+
+export interface TutorResponse {
+  statusCode: number;
+  message: string;
+  data: Tutor[];
+  size: number;
+  totalPages: number;
+  page: number;
+  limit: number;
 }

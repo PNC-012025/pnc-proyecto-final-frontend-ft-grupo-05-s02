@@ -41,9 +41,11 @@ const AccordionItem = <T extends { _id: string }>({
                             : (row[columns[0].accessor] as React.ReactNode)}
                     </span>
                     <span className="text-gray-600">
-                        {typeof columns[1].accessor === "function"
-                            ? columns[1].accessor(row)
-                            : (row[columns[1].accessor] as React.ReactNode)}
+                        {columns.length > 1 ? (
+                            typeof columns[1].accessor === "function"
+                                ? columns[1].accessor(row)
+                                : (row[columns[1].accessor] as React.ReactNode)
+                        ) : null}
                     </span>
                 </div>
                 <ChevronDown

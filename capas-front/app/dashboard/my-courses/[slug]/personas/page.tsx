@@ -9,14 +9,13 @@ interface Person {
   nombre: string;
   image?: string;
   email: string;
-  telefono: string;
 }
 
 export default function Personas() {
   const [searchTerm, setSearchTerm] = useState("");
   const course = useContext(CourseContext);
 
-  const filteredProfessors: Person[] = (course?.encargados.map((person) => ({
+  const filteredProfessors: Person[] = (course?.tutores.map((person) => ({
     ...person,
     id: person._id,
   })) || []).filter((person) =>
@@ -83,7 +82,7 @@ export default function Personas() {
           </div>
         )}
 
-        {filteredProfessors.length > 0 && renderList("Encargados", filteredProfessors, course?.encargados.length)}
+        {filteredProfessors.length > 0 && renderList("Tutores", filteredProfessors, course?.tutores.length)}
 
         {filteredStudents.length > 0 && renderList("Estudiantes", filteredStudents, course?.alumnos.length)}
       </div>

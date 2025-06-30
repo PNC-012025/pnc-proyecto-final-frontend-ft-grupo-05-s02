@@ -13,10 +13,10 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Course, Image as ImageFile, Publicacion } from "@/app/types/types";
+import { Course, CourseAddInterface, Image as ImageFile, Publicacion } from "@/app/types/types";
 import { formatRelativeTime } from "@/utils/formatRelativeTime";
 import { updateCourse } from "@/app/services/course.service";
-import { CourseConfigModal } from "@/app/components/Popups/CourseConfigModal";
+import { AddCourseModal } from "@/app/components/Popups/CourseConfigModal";
 import { uploadImage } from "@/app/services/images.service";
 import { useContext } from "react";
 import { CourseContext } from "@/app/contexts/course-context";
@@ -40,6 +40,8 @@ export default function Tablon() {
     type: "add" | "edit" | "delete" | null;
     selected: Publicacion | null;
   }>({ type: null, selected: null });
+
+  console.log("Course context:", course);
 
   const queryClient = useQueryClient();
 
@@ -95,11 +97,15 @@ export default function Tablon() {
     setModalStatePublication({ type: null, selected: null });
   };
 
-  const handleEdit = async (updated: Course, image: File | string | null) => {
-    const updateData: Partial<Course> = { _id: updated._id };
+  const handleEdit = async (cursoEditar: CourseAddInterface, image: File | string | null) => {
+    const updateData: CourseAddInterface = {
+      name: cursoEditar.name,
+      backgroundImageId: cursoEditar.backgroundImageId,
+      userIds: cursoEditar.userIds,
+    };
 
     try {
-      let imageUrl = updated.backgroundImage;
+      let imageId = cursoEditar.backgroundImageId;
 
       if (image instanceof File) {
         if (!image.type.startsWith("image/")) {
@@ -112,33 +118,36 @@ export default function Tablon() {
 
         const imagen: ImageFile = {
           originalFilename: image.name,
-          category: "section_images",
+          category: "workgroups",
           file: image,
         };
-  
+
         const imageResponse = await uploadImageMutation.mutateAsync(imagen);
-        imageUrl = imageResponse.data.url;
-        console.log("Respuesta de la imagen:", imageResponse.data.url);
+        imageId = imageResponse.data.id;
+
+
 
       } else if (typeof image === "string") {
-        updateData.backgroundImage = image;
+        updateData.backgroundImageId = image;
       }
-
-      updateData.backgroundImage = imageUrl;
-      updateData.nombre = updated.nombre;
-      updateData.encargados = updated.encargados;
+      updateData.backgroundImageId = imageId;
+      updateData.name = cursoEditar.name;
+      updateData.userIds = cursoEditar.userIds;
+      updateData.id = course?._id;
 
       console.log("Datos a actualizar:", updateData);
 
       const courseResponse = await updateCourseMutation.mutateAsync(updateData);
 
+      console.log("Curso creado:", courseResponse);
+
       console.log("Respuesta del curso:", courseResponse);
-    
-    // 4. Cerrar modal y mostrar feedback
-    toast.success({
-      text: "Curso actualizado exitosamente",});
-    closeModal();
-    console.log("Respuesta final:", courseResponse);
+
+      toast.success({
+        text: "Curso actualizado exitosamente",
+      });
+      closeModal();
+      console.log("Respuesta final:", courseResponse);
     }
     catch (error) {
       if (error instanceof Error) {
@@ -155,7 +164,6 @@ export default function Tablon() {
     }
   };
 
-  console.log("Curso actual:", course);
   return (
     <div className="min-h-screen">
       <div className="relative h-48 sm:h-64 md:h-80 overflow-hidden rounded-b-2xl">
@@ -182,7 +190,7 @@ export default function Tablon() {
           </RoleGuard>
 
           <div className="absolute bottom-4 sm:bottom-8 left-4 sm:left-8 right-4 sm:right-8">
-            <h1 className="text-xl sm:text-3xl md:text-5xl font-bold text-white mb-2 line-clamp-2">
+            <h1 className="text-xl sm:text-3xl md:text-5xl font-bold text-white mb-2">
               {course?.nombre}
             </h1>
           </div>
@@ -190,7 +198,7 @@ export default function Tablon() {
       </div>
 
       <div className="md:pb-10 pb-4">
-        <div className="flex flex-col sm:flex-row sm:items-center px-4 sm:px-6 lg:px-8 justify-between mb-4 sm:mb-8 md:mb-10 space-y-4 sm:space-y-0">
+        <div className="flex flex-col mt-3 sm:flex-row sm:items-center px-4 sm:px-6 lg:px-8 justify-between mb-4 sm:mb-8 md:mb-10 space-y-4 sm:space-y-0">
           <div className="flex flex-col gap-1">
             <h2 className="text-lg sm:text-2xl md:text-3xl font-bold text-[#003C71]">
               Últimas publicaciones
@@ -295,7 +303,6 @@ export default function Tablon() {
                     </div>
                   </div>
 
-                  {/* Sección de archivos (mantener igual) */}
                   {openId === novedad._id && (
                     <div className="px-8 pb-6 border-t border-gray-100/50">
                       <div className="sm:pl-16 pl-10 sm:pr-8 pr-10">
@@ -337,7 +344,7 @@ export default function Tablon() {
       <RoleGuard
         allowedRoles={[ROLES.ADMIN, ROLES.PROFESOR, ROLES.TUTOR]}
       >
-        <CourseConfigModal
+        <AddCourseModal
           isOpen={modalState.type === "edit"}
           title="Editar curso"
           initialData={modalState.selected!}

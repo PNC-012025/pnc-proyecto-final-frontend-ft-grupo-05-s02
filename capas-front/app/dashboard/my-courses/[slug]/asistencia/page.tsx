@@ -45,11 +45,7 @@ export default function Asistencia() {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState(false);
   const initialAlumnosRef = useRef(localAsistencia.alumnos);
   const initialEncargadosRef = useRef(localAsistencia.encargados);
-  const [view, setView] = useState("estudiante");
 
-  const handleView = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setView(e.target.value);
-  }
 
   useWarnIfUnsavedChanges(hasUnsavedChanges);
 
@@ -149,10 +145,10 @@ export default function Asistencia() {
         if (!alumno) return prev;
 
         const existingIndex = prev.alumnos.findIndex(
-          (a) => a.alumnoId === alumnoId
+          (a) => a.userXWorkGroupId === alumnoId
         );
         const newAsistencia = {
-          alumnoId: alumno._id,
+          userXWorkGroupId: alumno._id,
           fecha: new Date().toISOString(),
           estado,
           nombre: alumno.nombre,
@@ -181,12 +177,14 @@ export default function Asistencia() {
   const handleGuardar = () => {
     const payload = {
       seccionId: course?._id || "",
-      asistencias: localAsistencia.alumnos.map(({ alumnoId, fecha, estado }) => ({
-        alumnoId,
+      asistencias: localAsistencia.alumnos.map(({ userXWorkGroupId, fecha, estado }) => ({
+        userXWorkGroupId,
         fecha,
         estado,
       })),
     };
+
+    console.log("Guardando asistencia:", payload);
 
     const finalPromise = updateAsistenciaByIdMutation.mutateAsync(payload);
 
@@ -225,7 +223,6 @@ export default function Asistencia() {
             <h1 className="sm:text-2xl my-1 text-base text-[#003C71] font-bold">
               Registro de Asistencia
             </h1>
-            {view == "estudiante" && (
               <button
                 onClick={handleGuardar}
                 className="bg-[#003C71] text-white sm:px-6 sm:py-0 px-2 py-0 rounded-lg transition-colors disabled:bg-gray-300"
@@ -233,27 +230,14 @@ export default function Asistencia() {
               >
                 Guardar Asistencias
               </button>
-            )
-            }
-
           </div>
         </div>
       </div>
 
-      <div className="flex flex-row-reverse items-center gap-4 pb-5">
-        <select name="select" onChange={handleView} id="" className="bg-white outline-none text-[#003C71] border border-gray-200 rounded-lg px-4 py-2">
-          <option value="estudiante">Estudiantes</option>
-          <option value="encargado">Encargados</option>
-        </select>
-      </div>
 
       <div className="space-y-4">
-        {view == "estudiante" && course.alumnos.map((alumno) => (
+        {course.alumnos.map((alumno) => (
           <AsistenciaCard key={alumno._id} isAlumno={true} localAsistencia={localAsistencia} alumno={alumno} handleEstadoAsistencia={handleEstadoAsistencia} />
-        ))}
-
-        {view == "encargado" && course.encargados.map((alumno) => (
-          <AsistenciaCard key={alumno._id} isAlumno={false} localAsistencia={localAsistencia} alumno={alumno} setModalState={setModalState} />
         ))}
 
         <FormAsistenciaEncargado
