@@ -7,6 +7,7 @@ import {
   AsistenciaEntryResponse,
   AsistenciaResponse,
   HistoryAsistenciaResponse,
+  RawAsistenciaAlumno,
 } from "@/app/types/types";
 
 export const getAllAsistencia = async (): Promise<Asistencia[]> => {
@@ -125,13 +126,33 @@ export const updateAsistenciaById = async (
 
 export const getAsistenciaByDateAlumnos = async (
   id_section: string | undefined,
-  month: string,
-  year: string
+  month:      string,
+  year:       string
 ): Promise<HistoryAsistenciaResponse<AsistenciaAlumno>> => {
-  const response = await api.get<HistoryAsistenciaResponse<AsistenciaAlumno>>(
+  type RawHistoryResponseArray = HistoryAsistenciaResponse<Record<string, RawAsistenciaAlumno[]>[]>;
+  const resp = await api.get<RawHistoryResponseArray>(
     `/attendance/work-group/${id_section}?month=${month}&year=${year}`
   );
-  return Array.isArray(response.data) ? response.data[0] : response.data;
+
+  const rawArray = resp.data.data;
+  const rawData: Record<string, RawAsistenciaAlumno[]> =
+    Array.isArray(rawArray) ? rawArray[0] : rawArray;
+
+  const mappedData: Record<string, AsistenciaAlumno[]> = {};
+  for (const fecha in rawData) {
+    mappedData[fecha] = rawData[fecha].map(item => ({
+      userXWorkGroupId: item.alumnoId,
+      fecha:            item.fecha,
+      estado:           item.estado,
+      nombre:           item.nombre,
+      imagen:           item.imagen,
+    }));
+  }
+
+  return {
+    ...resp.data,
+    data: mappedData
+  };
 };
 
 export const getAsistenciaByDateEncargados = async (

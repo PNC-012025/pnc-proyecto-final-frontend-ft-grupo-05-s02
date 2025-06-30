@@ -184,6 +184,14 @@ export interface HistoryAsistenciaResponse<T> {
   data: Record<string, T[]>;
 }
 
+export interface RawAsistenciaAlumno {
+  id:        string;
+  alumnoId:  string;
+  fecha:     string;
+  estado:    string;
+  nombre:    string;
+  imagen:    string;
+}
 
 export interface Asistencia {
   _id: string;
