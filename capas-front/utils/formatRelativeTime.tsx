@@ -1,6 +1,7 @@
 export const formatRelativeTime = (dateString: string) => {
     const date = new Date(dateString);
     const now = new Date();
+    //jdksjkd
     const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
   
     const rtf = new Intl.RelativeTimeFormat('es', { numeric: 'auto' });
